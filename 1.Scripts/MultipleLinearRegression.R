@@ -30,7 +30,7 @@ model <- lm(log(PlantBiomass) ~ VerticalWaterDistance +
 
 # Check linearity and homoscedasticity
 # Set up the file to save as PNG
-png(filename = "4.Results/PlantBiomassModelDiagnostics.png", width = 800, height = 800)
+png(filename = "4.Results/MLR.PlantBiomassDiagnostics.png", width = 800, height = 800)
 par(mfrow = c(2, 2))  # Set up a 2x2 plotting area
 plot(model)
 # Close the device to save the file
@@ -58,7 +58,7 @@ modelWithoutEC <- lm(log(PlantBiomass) ~ VerticalWaterDistance +
 
 # Check linearity and homoscedasticity
 # Set up the file to save as PNG
-png(filename = "4.Results/PlantBiomassModelDiagnosticsNoEC.png", width = 800, height = 800)
+png(filename = "4.Results/MLR.PlantBiomassDiagnosticsNoEC.png", width = 800, height = 800)
 par(mfrow = c(2, 2))  # Set up a 2x2 plotting area
 plot(modelWithoutEC)
 # Close the device to save the file
@@ -71,7 +71,7 @@ shapiro.test(residuals(modelWithoutEC))  # Shapiro-Wilk test
 vif_values <- vif(modelWithoutEC)
 print(vif_values)
 
-png(filename = "4.Results/PlantBiomassModelResidualsQQ.png", width = 800, height = 500)
+png(filename = "4.Results/MLR.PlantBiomassResidualsQQ.png", width = 800, height = 500)
 par(mfrow = c(1, 2))
 hist(residuals(modelWithoutEC), main = "Residuals Histogram", xlab = "Residuals")
 qqnorm(residuals(modelWithoutEC))
@@ -91,7 +91,7 @@ model2WithoutEC <- lm(log(GreennessIndex) ~ VerticalWaterDistance +
 
 # Check linearity and homoscedasticity
 # Set up the file to save as PNG
-png(filename = "4.Results/GreennessIndexModelDiagnostics.png", width = 800, height = 800)
+png(filename = "4.Results/MLR.GreennessIndexDiagnostics.png", width = 800, height = 800)
 par(mfrow = c(2, 2))  # Set up a 2x2 plotting area
 plot(model2WithoutEC)
 # Close the device to save the file
@@ -104,7 +104,7 @@ shapiro.test(residuals(model2WithoutEC))  # Shapiro-Wilk test
 vif_values <- vif(model2WithoutEC)
 print(vif_values)
 
-png(filename = "4.Results/GreennessIndexModelResidualsQQ.png", width = 800, height = 500)
+png(filename = "4.Results/MLR.GreennessIndexResidualsQQ.png", width = 800, height = 500)
 par(mfrow = c(1, 2))
 hist(residuals(modelWithoutEC), main = "Residuals Histogram", xlab = "Residuals")
 qqnorm(residuals(modelWithoutEC))
@@ -112,3 +112,4 @@ qqline(residuals(modelWithoutEC), col = "red")
 dev.off()
 
 summary(model2WithoutEC)
+

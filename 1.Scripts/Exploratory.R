@@ -30,7 +30,7 @@ plot1 <- ggplot(data = FData, mapping = aes(y= GreennessIndex, x = PlantBiomass)
   geom_point() +
   geom_smooth(method = "lm")
 plot1
-ggsave(filename = "4.Results/CorrelationGreennessPlantBiomass.png",
+ggsave(filename = "4.Results/Expl.Sctr.GreennessPlantBiomass.png",
        plot=plot1, width=8, height=6, dpi=300)
 # t = 3.6812, df = 88, p-value = 0.0003998, cor 0.3652958, R^2 = 
 cor.test(FData$PlantBiomass, FData$GreennessIndex, method = "pearson")
@@ -45,7 +45,7 @@ plot3 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = VerticalWaterDi
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot2.3 <- grid.arrange(plot2, plot3, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassVertDist.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassVertDist.png", 
        plot = combinedPlot2.3, width = 12, height = 6, dpi = 300)
 # t = -2.6022, df = 88, p-value = 0.01087, cor = -0.2673051, R^2 = 
 cor.test(FData$GreennessIndex, FData$VerticalWaterDistance, method = "pearson")
@@ -62,7 +62,7 @@ plot5 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = SoilMoistureAvr
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot4.5 <- grid.arrange(plot4, plot5, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassSoilMoisture.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassMoisture.png", 
        plot = combinedPlot4.5, width = 12, height = 6, dpi = 300)
 # t = 6.7812, df = 88, p-value = 1.315e-09, cor = 0.5858382, R^2 = 
 cor.test(FData$GreennessIndex, FData$SoilMoistureAvrg, method = "pearson")
@@ -79,7 +79,7 @@ plot7 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = pH)) +
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot6.7 <- grid.arrange(plot6, plot7, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomasspH.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomasspH.png", 
        plot = combinedPlot6.7, width = 12, height = 6, dpi = 300)
 # t = -6.0753, df = 87, p-value = 3.178e-08, cor = -0.5457774, R^2 = 
 cor.test(FData$GreennessIndex, FData$pH, method = "pearson")
@@ -96,7 +96,7 @@ plot9 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = EC)) +
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot8.9 <- grid.arrange(plot8, plot9, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassEC.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassEC.png", 
        plot = combinedPlot8.9, width = 12, height = 6, dpi = 300)
 # t = -3.4891, df = 87, p-value = 0.000763, cor = -0.3503567, R^2 = 
 cor.test(FData$GreennessIndex, FData$EC, method = "pearson")
@@ -113,7 +113,7 @@ plot11 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = SalinityAdjust
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot10.11 <- grid.arrange(plot10, plot11, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassSalinity.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassSalinity.png", 
        plot = combinedPlot10.11, width = 12, height = 6, dpi = 300)
 # t = -3.9969, df = 87, p-value = 0.0001341, cor = -0.3938753, R^2 = 
 cor.test(FData$GreennessIndex, FData$SalinityAdjusted, method = "pearson")
@@ -130,7 +130,7 @@ plot13 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = BulkDensityInc
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot12.13 <- grid.arrange(plot12, plot13, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassBulkDensity.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassBulkDensity.png", 
        plot = combinedPlot12.13, width = 12, height = 6, dpi = 300)
 # t = -7.9333, df = 87, p-value = 6.761e-12, cor = -0.6478856, R^2 = 
 cor.test(FData$GreennessIndex, FData$BulkDensityIncRoots, method = "pearson")
@@ -147,7 +147,7 @@ plot15 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = SoilLightness)
   geom_smooth(method = "lm")
 # Arrange the plots side by side
 combinedPlot14.15 <- grid.arrange(plot14, plot15, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassSoilLightness.png", 
+ggsave(filename = "4.Results/Expl.Sctr.GreennessBiomassSoilLightness.png", 
        plot = combinedPlot14.15, width = 12, height = 6, dpi = 300)
 # t = -5.5626, df = 87, p-value = 2.884e-07, cor = -0.5122055 , R^2 = 
 cor.test(FData$GreennessIndex, FData$SoilLightness, method = "pearson")
@@ -162,7 +162,7 @@ plot1 <- ggplot(data = FData, mapping = aes(y= VerticalWaterDistance, x = SoilMo
   geom_point() +
   geom_smooth(method = "lm")
 plot1
-ggsave(filename = "4.Results/CorrelationVertDistWaterSoilMoisture.png",
+ggsave(filename = "4.Results/Expl.Sctr.VertDistWaterSoilMoisture.png",
        plot=plot1, width=8, height=6, dpi=300)
 
 
@@ -171,7 +171,7 @@ plot1 <- ggplot(data = FData, mapping = aes(y= SalinityAdjusted, x = EC)) +
   geom_point() +
   geom_smooth(method = "lm")
 plot1
-ggsave(filename = "4.Results/CorrelationSalinityEC.png",
+ggsave(filename = "4.Results/Expl.Sctr.SalinityEC.png",
        plot=plot1, width=8, height=6, dpi=300)
 # t = 48.498, df = 87, p-value < 2.2e-16, cor = 0.982003 
 cor.test(FData$SalinityAdjusted, FData$EC, method = "pearson")
@@ -182,7 +182,7 @@ plot1 <- ggplot(data = FData, mapping = aes(y= SalinityAdjusted, x = pH)) +
   geom_point() +
   geom_smooth(method = "lm")
 plot1
-ggsave(filename = "4.Results/CorrelationSalinitypH.png",
+ggsave(filename = "4.Results/Expl.Sctr.SalinitypH.png",
        plot=plot1, width=8, height=6, dpi=300)
 
 ####################################################### box plots
@@ -194,7 +194,7 @@ plot17 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = AnimalActivity
   geom_boxplot()
 # Arrange the plots side by side
 combinedPlot16.17 <- grid.arrange(plot16, plot17, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassAnimalActivity.png", 
+ggsave(filename = "4.Results/Expl.Box.GreennessBiomassAnimalAct.png", 
        plot = combinedPlot16.17, width = 12, height = 6, dpi = 300)
 
 
@@ -205,5 +205,6 @@ plot19 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = ThufurHollowNA
   geom_boxplot()
 # Arrange the plots side by side
 combinedPlot18.19 <- grid.arrange(plot18, plot19, ncol = 2)
-ggsave(filename = "4.Results/GreennessBiomassThufurHollow.png", 
+ggsave(filename = "4.Results/Expl.Box.GreennessBiomassThufurHollow.png", 
        plot = combinedPlot18.19, width = 12, height = 6, dpi = 300)
+
