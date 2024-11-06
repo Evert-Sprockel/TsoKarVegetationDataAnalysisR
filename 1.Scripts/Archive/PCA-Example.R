@@ -1,4 +1,4 @@
-# https://youtu.be/0Jp4gsfOLMs?si=JkB6ruQhFoga3X8C
+# Tutorial used: https://youtu.be/0Jp4gsfOLMs?si=JkB6ruQhFoga3X8C
 
 dataMatrix <- matrix(nrow=100, ncol=10)
 # Naming the columns

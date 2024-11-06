@@ -20,6 +20,7 @@ FData$ThufurHollowNA <- as.factor(FData$ThufurHollowNA)  # Change the data type 
 
 
 
+
 ####################################################### scatter plots
 
 ########### greenness plant biomass
@@ -184,6 +185,10 @@ plot1 <- ggplot(data = FData, mapping = aes(y= SalinityAdjusted, x = pH)) +
 plot1
 ggsave(filename = "4.Results/Expl.Sctr.SalinitypH.png",
        plot=plot1, width=8, height=6, dpi=300)
+
+
+
+
 
 ####################################################### box plots
 

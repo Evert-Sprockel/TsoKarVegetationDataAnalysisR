@@ -1,4 +1,11 @@
-# tidyverse for plots, readxl for Excel files, vegan for clustering, car for analyses
+
+# https://youtu.be/vGOpEpjz2Ks?si=mcGVeLnYw8hmf6WQ
+# The box-cox is a very nice method, use it here.
+
+
+
+
+
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
