@@ -29,3 +29,68 @@
 # DBSCAN has two user defined parameters: radius of "close" circle, and number of close points for a
 # core point. Core points extend a cluster with all points in close proximity. Non-core points can 
 # only join a cluster, not extend it further.
+
+
+# https://github.com/zdealveindy/twinspanR/
+
+######################################################
+
+
+
+
+
+
+
+
+
+
+rm(list = ls()) # Cleaning the environment
+# ctrl + L will clear console
+# in plot window click broom
+
+library(ggplot2)
+library(vegan)
+library(twinspanR)
+
+########################### Importing data
+
+# Load envData and vegData from CSV files, setting the first column as row names
+envData <- as.matrix(read.csv("2.Data/envDataForMVATransformed.csv", row.names = 1))
+vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
+
+# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
+
+
+########################### The analysis itself
+
+
+res <- twinspan (vegData, modif = TRUE, clusters = 4)
+
+k <- cut (res)
+
+dca <- decorana (vegData)
+
+par (mfrow = c(1,2))
+
+ordiplot (dca, type = 'n', display = 'si', main = 'Modified TWINSPAN')
+
+  
+points (dca, col = k)
+
+for (i in c(1,2,4)) ordihull (dca, groups = k, show.group = i, col = i, draw = 'polygon', label = TRUE)
+
+ordiplot (dca, type = 'n', display = 'si', main = 'Original assignment\n (Ellenberg 1954)')
+
+points (dca, col = envData[, !colnames(envData) %in% c("VerticalDistanceWaterLog", "BulkDensityIncRootsLog")])
+
+for (i in c(1:3)) ordihull (dca, groups = envData, 
+                                    show.group = unique (envData)[i], col = i,
+                                    draw = 'polygon', label = TRUE)
+
+## To capture the console output of twinspan.exe into R object, use the following:
+## Not run: 
+##D out <- capture.output (tw <- twinspan (danube$spe, show.output.on.console = T))
+##D summary (tw)           # returns summary of twinspan algorithm
+##D cat (out, sep = '\n')  # prints the captured output
+##D write.table (out, file = 'out.txt', quot = F, row.names = F) # writes output to 'out.txt' file
+## End(Not run)

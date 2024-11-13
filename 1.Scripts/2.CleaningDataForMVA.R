@@ -32,7 +32,7 @@ rownames(envData) <- tolower(eData[[1]])  # set first column of cells as row nam
 
 # vData: remove column "s1t2p5", "s2t4p6", "s3t5p3" and row "Cyperaceae unknown"
 vegData <- vegData[, !colnames(vegData) %in% c("s1t2p5", "s2t4p6", "s3t5p3")]
-vegData <- vegData[!rownames(vegData) %in% c("Cyperaceae unknown"), ]
+vegData <- vegData[!rownames(vegData) %in% c("Cyperaceae unknown", "Leymus secalinus"), ]
 
 # fData: remove row "s1t2p5", "s2t4p6", "s3t5p3" 
 envData <- envData[!rownames(envData) %in% c("s1t2p5", "s2t4p6", "s3t5p3"), ]
