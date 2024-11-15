@@ -50,7 +50,6 @@ rm(list = ls()) # Cleaning the environment
 
 library(ggplot2)
 library(vegan)
-library(twinspanR)
 
 ########################### Importing data
 
@@ -61,36 +60,74 @@ vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 
 
-########################### The analysis itself
+########################### Function for running the clustering
+
+createClusters <- function(data, clusteringMethod) {
+  samples_dist <- dist(data) 
+  samples_hc <- hclust(samples_dist, method = clusteringMethod)
+  plot(samples_hc)
+}
+
+createClustersWithTab <- function(data, clusteringMethod) {
+  samples_dist <- dist(data) 
+  samples_hc <- hclust(samples_dist, method = clusteringMethod)
+  tabasco(data, samples_hc)
+}
+
+clusterAndSavePlot <- function(tab, fileNumber, data, clusterinMethod) {
+  if (tab) {
+    png(paste0("4.Results/Clust.tab.", fileNumber, clusterinMethod, ".png"), width = 1200, height = 1000)
+    createClustersWithTab(data, clusterinMethod)
+  } else {
+    png(paste0("4.Results/Clust.", fileNumber, clusterinMethod, ".png"), width = 1200, height = 1000)
+    createClusters(data, clusterinMethod)
+  }
+  dev.off()
+}
 
 
-res <- twinspan (vegData, modif = TRUE, clusters = 4)
+########################### Clustering the plots based on the species
 
-k <- cut (res)
+# Plotting the clusters themselves
+clusterAndSavePlot(FALSE, "Plots.1", vegData, "ward.D")
+clusterAndSavePlot(FALSE, "Plots.2", vegData, "ward.D2")
+clusterAndSavePlot(FALSE, "Plots.3", vegData, "single")
+clusterAndSavePlot(FALSE, "Plots.4", vegData, "complete")
+clusterAndSavePlot(FALSE, "Plots.5", vegData, "average")
+clusterAndSavePlot(FALSE, "Plots.6", vegData, "mcquitty")
+clusterAndSavePlot(FALSE, "Plots.7", vegData, "median")
+clusterAndSavePlot(FALSE, "Plots.8", vegData, "centroid")
 
-dca <- decorana (vegData)
+# plotting the clusters with the tabasco function
+clusterAndSavePlot(TRUE, "Plots.1", vegData, "ward.D")
+clusterAndSavePlot(TRUE, "Plots.2", vegData, "ward.D2")
+clusterAndSavePlot(TRUE, "Plots.3", vegData, "single")
+clusterAndSavePlot(TRUE, "Plots.4", vegData, "complete")
+clusterAndSavePlot(TRUE, "Plots.5", vegData, "average")
+clusterAndSavePlot(TRUE, "Plots.6", vegData, "mcquitty")
+clusterAndSavePlot(TRUE, "Plots.7", vegData, "median")
+clusterAndSavePlot(TRUE, "Plots.8", vegData, "centroid")
 
-par (mfrow = c(1,2))
 
-ordiplot (dca, type = 'n', display = 'si', main = 'Modified TWINSPAN')
+########################### Clustering the species based on the plots
 
-  
-points (dca, col = k)
+# Plotting the clusters themselves
+clusterAndSavePlot(FALSE, "Species.1", t(vegData), "ward.D")
+clusterAndSavePlot(FALSE, "Species.2", t(vegData), "ward.D2")
+clusterAndSavePlot(FALSE, "Species.3", t(vegData), "single")
+clusterAndSavePlot(FALSE, "Species.4", t(vegData), "complete")
+clusterAndSavePlot(FALSE, "Species.5", t(vegData), "average")
+clusterAndSavePlot(FALSE, "Species.6", t(vegData), "mcquitty")
+clusterAndSavePlot(FALSE, "Species.7", t(vegData), "median")
+clusterAndSavePlot(FALSE, "Species.8", t(vegData), "centroid")
 
-for (i in c(1,2,4)) ordihull (dca, groups = k, show.group = i, col = i, draw = 'polygon', label = TRUE)
+# plotting the clusters with the tabasco function
+clusterAndSavePlot(TRUE, "Species.1", t(vegData), "ward.D")
+clusterAndSavePlot(TRUE, "Species.2", t(vegData), "ward.D2")
+clusterAndSavePlot(TRUE, "Species.3", t(vegData), "single")
+clusterAndSavePlot(TRUE, "Species.4", t(vegData), "complete")
+clusterAndSavePlot(TRUE, "Species.5", t(vegData), "average")
+clusterAndSavePlot(TRUE, "Species.6", t(vegData), "mcquitty")
+clusterAndSavePlot(TRUE, "Species.7", t(vegData), "median")
+clusterAndSavePlot(TRUE, "Species.8", t(vegData), "centroid")
 
-ordiplot (dca, type = 'n', display = 'si', main = 'Original assignment\n (Ellenberg 1954)')
-
-points (dca, col = envData[, !colnames(envData) %in% c("VerticalDistanceWaterLog", "BulkDensityIncRootsLog")])
-
-for (i in c(1:3)) ordihull (dca, groups = envData, 
-                                    show.group = unique (envData)[i], col = i,
-                                    draw = 'polygon', label = TRUE)
-
-## To capture the console output of twinspan.exe into R object, use the following:
-## Not run: 
-##D out <- capture.output (tw <- twinspan (danube$spe, show.output.on.console = T))
-##D summary (tw)           # returns summary of twinspan algorithm
-##D cat (out, sep = '\n')  # prints the captured output
-##D write.table (out, file = 'out.txt', quot = F, row.names = F) # writes output to 'out.txt' file
-## End(Not run)
