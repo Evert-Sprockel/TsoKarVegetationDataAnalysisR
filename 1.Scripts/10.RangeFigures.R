@@ -5,8 +5,7 @@ rm(list = ls()) # Cleaning the environment
 library(ggplot2)
 library(tidyverse)
 library(gridExtra)
-# library(dplyr)
-# library(hrbrthemes)
+
 
 ########################### Importing data
 
@@ -75,6 +74,13 @@ plot4 <- createPlot(vegData, envData, "SalinityAdjusted")
 plot5 <- createPlot(vegData, envData, "BulkDensityIncRoots")
 
 
+########################### Saving image
+
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
 combined_plot <- grid.arrange(plot1, plot2, plot3, plot4, plot5, ncol = 3)
-ggsave("4.Results/SpeciesRanges.png", plot = combined_plot, dpi = 200, width = 12, height = 8, units = "in")
+ggsave("4.Results/SpeciesRanges.png", 
+       plot = combined_plot,
+       dpi = 200,
+       width = 12,
+       height = 8,
+       units = "in")

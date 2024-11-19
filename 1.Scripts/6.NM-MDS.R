@@ -58,11 +58,54 @@ library(vegan)
 
 ########################### Importing data
 
+# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
 envData <- as.matrix(read.csv("2.Data/envDataForMVATransformed.csv", row.names = 1))
 vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
 
-# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
+# Loading the cluster data from the script "Clustering.R"
+plotclusters <- read.csv("2.Data/Clust.Plots.1ward.D.csv")
+speciesClusters <- read.csv("2.Data/Clust.Species.1ward.D.csv")
+
+
+########################### Plotting function
+
+plotNMMDS <- function(nmds, file_name, fit) {
+  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
+  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
+  orditorp(nmds, display = "species", col = "blue", cex = 1)
+  orditorp(nmds, display = "sites", col = "black", pch = "+", cex = 1)
+  plot(fit, col = "darkgreen")
+  dev.off()
+}
+
+plotNMMDSWithLines <- function(nmds, file_name, environData, env_variable, fit) {
+  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
+  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
+  orditorp(nmds, display = "species", col = "blue", cex = 1)
+  orditorp(nmds, display = "sites", col = "black", pch = "+", cex = 1)
+  ordisurf(nmds, as.data.frame(environData)[[env_variable]], add = TRUE)
+  plot(fit, col = "darkgreen")
+  dev.off()
+}
+
+plotNMMDSWithSiteClusters <- function(nmds, file_name, fit, cColors) {
+  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
+  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
+  # orditorp(nmds, display = "species", col = cColors, cex = 1)
+  orditorp(nmds, display = "sites", col = cColors, pch = "+", cex = 1)
+  plot(fit, col = "#313131")
+  dev.off()
+}
+
+plotNMMDSWithSpeciesClusters <- function(nmds, file_name, fit, cColors) {
+  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
+  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
+  orditorp(nmds, display = "species", col = cColors, cex = 1)
+  # orditorp(nmds, display = "sites", col = cColors, pch = "+", cex = 1)
+  plot(fit, col = "#313131")
+  dev.off()
+}
 
 
 ########################### The analysis itself
@@ -84,61 +127,37 @@ ord.fit <- envfit(ord_nmds ~ ., data = as.data.frame(envData), perm = 999)
 ord.fit 
 
 
+########################### Assigning colors from cluster data
+
+Colors <- c("#34e0d9", "#34e067", "#e2be0e", "#6e23b7", "#b72323")
+
+# Define specific colors for each cluster
+plotColors <- as.factor(plotclusters$Cluster)
+# Assign colors to the clusters based on their factor levels
+plotColors <- Colors[plotColors]
+
+# Define specific colors for each cluster
+speciesColors <- as.factor(speciesClusters$Cluster)
+# Assign colors to the clusters based on their factor levels
+speciesColors <- Colors[speciesColors]
+
+
 ########################### Plots
 
-png(filename = "4.Results/NMMDS.OrdPlot.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-dev.off()
+# Regular NM-MDS plot
+plotNMMDS(ord_nmds, "OrdPlot", ord.fit)
 
-# Plotting the species and adding the environmental gradients on top, using the data from the 
-# envfit() function.
-png(filename = "4.Results/NMMDS.OrdPlotEnvironmentalVariables.png", width = 1200, height = 1000)
-plot(ord_nmds, dis="species", cex.axis = 1, cex.lab = 1, cex = 2)
-plot(ord.fit)
-dev.off()
+# Plot with colored clusters
+plotNMMDSWithSiteClusters(ord_nmds, "OrdPlotColoredSiteClusters", ord.fit, plotColors)
+plotNMMDSWithSpeciesClusters(ord_nmds, "OrdPlotColoredSpeciesClusters", ord.fit, speciesColors)
 
-# you can also plot an environmental factor as a surface onto an existing ordination
-png(filename = "4.Results/NMMDS.OrdPlotpH.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-ordisurf(ord_nmds, as.data.frame(envData)$pHLog, add=TRUE)
-plot(ord.fit, col = "darkgreen")
-dev.off()
+# Plotting NM-MDS with red lines for the variables
+plotNMMDSWithLines(ord_nmds, "OrdPlotpH", envData, "pHLog", ord.fit)
+plotNMMDSWithLines(ord_nmds, "OrdPlotSalinity", envData, "SalinityAdjustedLog", ord.fit)
+plotNMMDSWithLines(ord_nmds, "OrdPlotSoilMoisture", envData, "SoilMoistureAvrg", ord.fit)
+plotNMMDSWithLines(ord_nmds, "OrdPlotVerticalWaterDist", envData, "VerticalWaterDistanceLog", ord.fit)
+plotNMMDSWithLines(ord_nmds, "OrdPlotBulkDensity", envData, "BulkDensityIncRootsLog", ord.fit)
 
-png(filename = "4.Results/NMMDS.OrdPlotSalinity.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-ordisurf(ord_nmds, as.data.frame(envData)$SalinityAdjustedLog, add=TRUE)
-plot(ord.fit, col = "darkgreen")
-dev.off()
-
-png(filename = "4.Results/NMMDS.OrdPlotSoilMoisture.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-ordisurf(ord_nmds, as.data.frame(envData)$SoilMoistureAvrg, add=TRUE)
-plot(ord.fit, col = "darkgreen")
-dev.off()
-
-png(filename = "4.Results/NMMDS.OrdPlotVerticalWaterDist.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-ordisurf(ord_nmds, as.data.frame(envData)$VerticalWaterDistanceLog, add=TRUE)
-plot(ord.fit, col = "darkgreen")
-dev.off()
-
-png(filename = "4.Results/NMMDS.OrdPlotBulkDensity.png", width = 1200, height = 1000)
-plot(ord_nmds, type="n", cex.axis = 1, cex.lab = 1)
-orditorp(ord_nmds, display="species", col="blue", cex = 1)
-orditorp(ord_nmds, display = "sites", col = "black", pch="+", cex = 1)
-ordisurf(ord_nmds, as.data.frame(envData)$BulkDensityIncRootsLog, add=TRUE)
-plot(ord.fit, col = "darkgreen")
-dev.off()
 
 
 

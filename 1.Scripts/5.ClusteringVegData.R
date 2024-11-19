@@ -53,81 +53,66 @@ library(vegan)
 
 ########################### Importing data
 
+# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
 envData <- as.matrix(read.csv("2.Data/envDataForMVATransformed.csv", row.names = 1))
 vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
 
-# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
-
 
 ########################### Function for running the clustering
 
+## Takes species abundance data and a clustering method and performs normal clustering
+## Returns a hierarchical clustering object
 createClusters <- function(data, clusteringMethod) {
   samples_dist <- dist(data) 
   samples_hc <- hclust(samples_dist, method = clusteringMethod)
   plot(samples_hc)
+  return(samples_hc)
 }
 
+## Takes species abundance data and a clustering method and performs clustering with tabasco()
+## Returns a hierarchical clustering object
 createClustersWithTab <- function(data, clusteringMethod) {
   samples_dist <- dist(data) 
   samples_hc <- hclust(samples_dist, method = clusteringMethod)
   tabasco(data, samples_hc)
+  return(samples_hc)
 }
 
-clusterAndSavePlot <- function(tab, fileNumber, data, clusterinMethod) {
+## Takes data, calls one of the clustering methods and saves the image
+## Returns a hierarchical clustering object
+clusterAndSavePlot <- function(tab, fileName, data, clusterinMethod) {
   if (tab) {
-    png(paste0("4.Results/Clust.tab.", fileNumber, clusterinMethod, ".png"), width = 1200, height = 1000)
-    createClustersWithTab(data, clusterinMethod)
+    png(paste0("4.Results/Clust.tab.", fileName, clusterinMethod, ".png"), width = 1200, height = 1000)
+    clusters <- createClustersWithTab(data, clusterinMethod)
   } else {
-    png(paste0("4.Results/Clust.", fileNumber, clusterinMethod, ".png"), width = 1200, height = 1000)
-    createClusters(data, clusterinMethod)
+    png(paste0("4.Results/Clust.", fileName, clusterinMethod, ".png"), width = 1200, height = 1000)
+    clusters <- createClusters(data, clusterinMethod)
   }
   dev.off()
+  return(clusters)
+}
+
+## Takes a clustering object and writes clusters to a csv file
+## Returns none
+saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
+  clusters <- cutree(clusters, k = numClust)
+  cluster_data <- data.frame(SampleID = rownames(data), Cluster = clusters)
+  write.csv(cluster_data, paste0("2.Data/Clust.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
 }
 
 
 ########################### Clustering the plots based on the species
 
-# Plotting the clusters themselves
-clusterAndSavePlot(FALSE, "Plots.1", vegData, "ward.D")
-clusterAndSavePlot(FALSE, "Plots.2", vegData, "ward.D2")
-clusterAndSavePlot(FALSE, "Plots.3", vegData, "single")
-clusterAndSavePlot(FALSE, "Plots.4", vegData, "complete")
-clusterAndSavePlot(FALSE, "Plots.5", vegData, "average")
-clusterAndSavePlot(FALSE, "Plots.6", vegData, "mcquitty")
-clusterAndSavePlot(FALSE, "Plots.7", vegData, "median")
-clusterAndSavePlot(FALSE, "Plots.8", vegData, "centroid")
-
+# Other clustering options: ward.D2, single, complete, average, mcquitty, median, centroid
+clusters <- clusterAndSavePlot(FALSE, "Plots.1", vegData, "ward.D")
 # plotting the clusters with the tabasco function
-clusterAndSavePlot(TRUE, "Plots.1", vegData, "ward.D")
-clusterAndSavePlot(TRUE, "Plots.2", vegData, "ward.D2")
-clusterAndSavePlot(TRUE, "Plots.3", vegData, "single")
-clusterAndSavePlot(TRUE, "Plots.4", vegData, "complete")
-clusterAndSavePlot(TRUE, "Plots.5", vegData, "average")
-clusterAndSavePlot(TRUE, "Plots.6", vegData, "mcquitty")
-clusterAndSavePlot(TRUE, "Plots.7", vegData, "median")
-clusterAndSavePlot(TRUE, "Plots.8", vegData, "centroid")
-
+clusters <- clusters <- clusterAndSavePlot(TRUE, "Plots.1", vegData, "ward.D")
+# Saving the clusters as a csv
+saveClusters(5, clusters, "Plots.1", vegData, "ward.D")
 
 ########################### Clustering the species based on the plots
 
-# Plotting the clusters themselves
-clusterAndSavePlot(FALSE, "Species.1", t(vegData), "ward.D")
-clusterAndSavePlot(FALSE, "Species.2", t(vegData), "ward.D2")
-clusterAndSavePlot(FALSE, "Species.3", t(vegData), "single")
-clusterAndSavePlot(FALSE, "Species.4", t(vegData), "complete")
-clusterAndSavePlot(FALSE, "Species.5", t(vegData), "average")
-clusterAndSavePlot(FALSE, "Species.6", t(vegData), "mcquitty")
-clusterAndSavePlot(FALSE, "Species.7", t(vegData), "median")
-clusterAndSavePlot(FALSE, "Species.8", t(vegData), "centroid")
-
-# plotting the clusters with the tabasco function
-clusterAndSavePlot(TRUE, "Species.1", t(vegData), "ward.D")
-clusterAndSavePlot(TRUE, "Species.2", t(vegData), "ward.D2")
-clusterAndSavePlot(TRUE, "Species.3", t(vegData), "single")
-clusterAndSavePlot(TRUE, "Species.4", t(vegData), "complete")
-clusterAndSavePlot(TRUE, "Species.5", t(vegData), "average")
-clusterAndSavePlot(TRUE, "Species.6", t(vegData), "mcquitty")
-clusterAndSavePlot(TRUE, "Species.7", t(vegData), "median")
-clusterAndSavePlot(TRUE, "Species.8", t(vegData), "centroid")
-
+clusters <- clusterAndSavePlot(FALSE, "Species.1", t(vegData), "ward.D")
+clusters <- clusterAndSavePlot(TRUE, "Species.1", t(vegData), "ward.D")
+saveClusters(5, clusters, "Species.1", t(vegData), "ward.D")

@@ -12,11 +12,13 @@ library(vegan)
 
 
 
+
+########################### Importing data
+
+# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
 envData <- as.matrix(read.csv("2.Data/envDataForMVATransformed.csv", row.names = 1))
 vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
-
-# NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 
 
 
