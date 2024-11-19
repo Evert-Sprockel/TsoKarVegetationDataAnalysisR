@@ -1,3 +1,7 @@
+### OUTPUT OF THIS SCRIPT:
+# Two cleaned data sets (.csv): envData and vegData
+
+
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 # in plot window click broom
@@ -7,7 +11,7 @@ library(readxl)
 ########################### Importing data
 
 vData <- as.data.frame(read_excel("2.Data/VegetationData.xlsx"))
-eData <- as.data.frame(read_excel("2.Data/FieldData.xlsx"))
+eData <- as.data.frame(read_excel("2.Data/EnvironmentalData.xlsx"))
 # glimpse(FData) in console to see summary of datasheet
 # ?cor.test in console to see explanation
 
@@ -30,28 +34,20 @@ vData <- vData[!rownames(vData) %in% c("Cyperaceae unknown", "Leymus secalinus")
 eData <- eData[!rownames(eData) %in% c("s1t2p5", "s2t4p6", "s3t5p3"), ]
 
 
-########################### Converting to data matrix
+########################### Tidying the data frames, removing unnecessary information
 
-# Convert vegetation data to matrix
-vegData <- as.matrix(vData[, -c(1, 1)])  # only select the columns with abundance data
+vegData <- vData[, -c(1, 1)]  # only select the columns with abundance data
 vegData[is.na(vegData)] <- 0  # Fill empty cells with 0
-vegData <- t(vegData)
+vegData <- as.data.frame(t(vegData))
 
-# Convert environmental data to matrix
-envDataForMVA <- as.matrix(eData[, c("VerticalWaterDistance",
-                                     "SoilMoistureAvrg",
-                                     "pH",
-                                     "SalinityAdjusted",
-                                     "BulkDensityIncRoots")])
-envDataForLM <- as.matrix(eData[, c("GreennessIndex",
-                                    "PlantBiomass",
-                                    "VerticalWaterDistance", 
-                                    "SoilMoistureAvrg", 
-                                    "pH",
-                                    "EC",
-                                    "SalinityAdjusted", 
-                                    "BulkDensityIncRoots")])
-
+envData <- eData[, c("GreennessIndex",
+                     "PlantBiomass",
+                     "VerticalWaterDistance", 
+                     "SoilMoistureAvrg", 
+                     "pH",
+                     "EC",
+                     "SalinityAdjusted", 
+                     "BulkDensityIncRoots")]
 
 
 ################# Summary of data
@@ -60,20 +56,14 @@ str(vegData)
 head(vegData)
 dim(vegData)
 
-str(envDataForMVA)
-head(envDataForMVA)
-dim(envDataForMVA)
-
-str(envDataForLM)
-head(envDataForLM)
-dim(envDataForLM)
+str(envData)
+head(envData)
+dim(envData)
 
 
 ################# Exporting the data
 
-write.csv(vegData, "2.Data/vegDataForMVA.csv", row.names = TRUE)
-write.csv(envDataForMVA, "2.Data/envDataForMVA.csv", row.names = TRUE)
-
-write.csv(envDataForLM, "2.Data/envDataForLM.csv", row.names = TRUE)
+write.csv(vegData, "2.Data/vegData.csv", row.names = TRUE)
+write.csv(envData, "2.Data/envData.csv", row.names = TRUE)
 
 

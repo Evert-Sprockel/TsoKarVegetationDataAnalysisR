@@ -41,7 +41,9 @@
 
 
 
-
+### OUTPUT OF THIS SCRIPT:
+# cluster dendograms images
+# Two data sets: plots with cluster numbers, and species with cluster numbers
 
 
 rm(list = ls()) # Cleaning the environment
@@ -55,8 +57,7 @@ library(vegan)
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("2.Data/envDataForMVATransformed.csv", row.names = 1))
-vegData <- as.matrix(read.csv("2.Data/vegDataForMVA.csv", row.names = 1))
+vegData <- as.matrix(read.csv("2.Data/vegData.csv", row.names = 1))
 
 
 ########################### Function for running the clustering
@@ -98,7 +99,7 @@ clusterAndSavePlot <- function(tab, fileName, data, clusterinMethod) {
 saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
   clusters <- cutree(clusters, k = numClust)
   cluster_data <- data.frame(SampleID = rownames(data), Cluster = clusters)
-  write.csv(cluster_data, paste0("2.Data/Clust.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
+  write.csv(cluster_data, paste0("2.Data/Clusters.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
 }
 
 
@@ -116,3 +117,4 @@ saveClusters(5, clusters, "Plots.1", vegData, "ward.D")
 clusters <- clusterAndSavePlot(FALSE, "Species.1", t(vegData), "ward.D")
 clusters <- clusterAndSavePlot(TRUE, "Species.1", t(vegData), "ward.D")
 saveClusters(5, clusters, "Species.1", t(vegData), "ward.D")
+

@@ -1,3 +1,8 @@
+### OUTPUT OF THIS SCRIPT:
+# One image for containing several graphs of species range data
+# (No data set)
+
+
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 # in plot window click broom
@@ -5,13 +10,15 @@ rm(list = ls()) # Cleaning the environment
 library(ggplot2)
 library(tidyverse)
 library(gridExtra)
+library(hrbrthemes)
 
 
 ########################### Importing data
 
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- read.csv("2.Data/envDataForMVA.csv")
-vegData <- read.csv("2.Data/vegDataForMVA.csv")
+envData <- read.csv("2.Data/envDataWithShannonTransformed.csv")
+envData <- envData[, c("X", "VerticalWaterDistance", "SoilMoistureAvrg", "pH", "SalinityAdjusted", "BulkDensityIncRoots")]
+vegData <- read.csv("2.Data/vegData.csv")
 envData <- envData %>%
   rename("Plot" = "X")
 vegData <- vegData %>%
@@ -22,15 +29,15 @@ vegData <- vegData %>%
 
 ########################### Function for creating the plots
 
-createPlot <- function(vegData, envData, envVar) {
+createPlot <- function(vegetData, environData, envVar) {
   # Reshape species data
-  speciesLong <- vegData %>%
+  speciesLong <- vegetData %>%
     pivot_longer(cols = -Plot, names_to = "Species", values_to = "Abundance") %>%
     filter(Abundance > 0)
   
   # Merge with environmental data
   mergedData <- speciesLong %>%
-    left_join(envData, by = "Plot") %>%
+    left_join(environData, by = "Plot") %>%
     select(Species, Plot, envVar)
   
   # Calculate the min, max, and mean for each species based on the environmental variable
@@ -84,3 +91,6 @@ ggsave("4.Results/SpeciesRanges.png",
        width = 12,
        height = 8,
        units = "in")
+
+
+
