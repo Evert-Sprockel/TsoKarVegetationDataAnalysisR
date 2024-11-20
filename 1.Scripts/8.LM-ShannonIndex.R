@@ -23,7 +23,7 @@ library(DHARMa)
 envData <- read.csv("2.Data/envDataWithShannonTransformed.csv", row.names = 1)
 
 
-
+# first use un-transformed variables
 model <- glm(PlantBiomassLog ~ VerticalWaterDistanceLog + SoilMoistureAvrg + pHLog +
              ECLog + SalinityAdjustedLog + BulkDensityIncRootsLog,
              family = Gamma(link = "log"), data = envData)
@@ -31,14 +31,15 @@ summary(model)
 
 par(mfrow = c(2, 2))
 plot(model)
+simulationOutput <- simulateResiduals(fittedModel = model)
+plot(simulationOutput)
 
 dispersion <- sum(resid(model, type = "pearson")^2) / df.residual(model)
 dispersion
 
 step(model, direction = "both")
 
-simulationOutput <- simulateResiduals(fittedModel = model)
-plot(simulationOutput)
+
 
 # TODO: use a model selection tool to see which variables are most
 # important. And then use the box cox transformation

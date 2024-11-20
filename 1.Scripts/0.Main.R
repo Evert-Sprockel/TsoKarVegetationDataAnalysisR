@@ -29,6 +29,8 @@ rm(list = ls()) # Cleaning the environment
 
 # TODO: make the exploratory.R script work the cleaned data and add that to this file once finished
 
+# Change the transforming.R script in such a way that it automatically selects the best transformation
+
 
 
 
