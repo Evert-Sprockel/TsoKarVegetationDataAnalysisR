@@ -40,16 +40,15 @@ rm(list = ls()) # Cleaning the environment
 ########################### Running source files
 
 source("1.Scripts/2.CleaningData.R")
-
 source("1.Scripts/3.CalculatingRichnessAndShannon.R")
-
 source("1.Scripts/4.TransformingEnvData.R")
-
 source("1.Scripts/5.ClusteringVegData.R")
-
 source("1.Scripts/6.NM-MDS.R")
-
 source("1.Scripts/8.LM-ShannonIndex.R")
-
 source("1.Scripts/10.RangeFigures.R")
+
+
+########################### 
+
+rm(list = ls()) # Cleaning the environment
 
