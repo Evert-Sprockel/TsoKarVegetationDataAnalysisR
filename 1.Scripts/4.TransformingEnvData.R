@@ -6,8 +6,6 @@ rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 # in plot window click broom
 
-library(dplyr)
-
 
 ########################### Importing data
 

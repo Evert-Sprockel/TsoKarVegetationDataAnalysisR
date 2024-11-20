@@ -9,7 +9,7 @@ library(vegan)
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("2.Data/envData.csv", row.names = 1))
+envData <- as.matrix(read.csv("2.Data/envDataWithShannonTransformed.csv", row.names = 1))
 
 
 
