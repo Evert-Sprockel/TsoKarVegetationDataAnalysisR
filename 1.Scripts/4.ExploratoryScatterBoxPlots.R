@@ -6,10 +6,8 @@ rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 # in plot window click broom
 
-library(readxl)
 library(ggplot2)  # includes ggplot
 library(gridExtra)
-library(car)
 
 
 ########################### Importing data
@@ -104,11 +102,8 @@ createDoublePlot <- function(type, varY1, varY2, varX) {
 }
 
 
+########################### Creating the plots
 
-
-####################################################### scatter plots
-
-########### greenness plant biomass
 # TODO: maybe logarithmic transformation: test if residuals are normally distributed
 #  couple it to plant cover
 #  give all pictures with very bright condition different color dots in the graph
@@ -121,33 +116,27 @@ createDoublePlot("scatter", envData$GreennessIndex, envData$PlantBiomassLog, env
 createDoublePlot("scatter", envData$GreennessIndex, envData$PlantBiomassLog, envData$SalinityAdjustedLog)
 createDoublePlot("scatter", envData$GreennessIndex, envData$PlantBiomassLog, envData$BulkDensityIncRootsLog)
 
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$VerticalWaterDistanceLog)
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$SoilMoistureAvrg)
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$pHLog)
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$ECLog)
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$SalinityAdjustedLog)
+createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$BulkDensityIncRootsLog)
+
 createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistureAvrg)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$ECLog)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$pHLog)
 createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistureAvrg)
 
 
+createSinglePlot("scatter", envData$GreennessIndex, envData$Contrast)
 
-####################################################### box plots
+plotcolor <- ggplot(data = envData, mapping = aes(y = GreennessIndex, x = SoilMoistureAvrg, color = Contrast)) + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "SoilMoistureAvrg", y = "GreennessIndex") +
+  scale_color_gradientn(colors = rainbow(10)) 
+ggsave(filename = paste0("4.Results/Expl.Sctr.GreennessSoilMoistureCOLORED.png"),
+       plot = plotcolor, width=8, height=6, dpi=300)
 
-# ########### greenness animal activity, plant biomass animal activity
-# plot16 <- ggplot(data = FData, mapping = aes(y= GreennessIndex, x = AnimalActivity)) +
-#   geom_boxplot()
-# plot17 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = AnimalActivity)) +
-#   geom_boxplot()
-# # Arrange the plots side by side
-# combinedPlot16.17 <- grid.arrange(plot16, plot17, ncol = 2)
-# ggsave(filename = "4.Results/Expl.Box.GreennessBiomassAnimalAct.png", 
-#        plot = combinedPlot16.17, width = 12, height = 6, dpi = 300)
-# 
-# 
-# ########### greenness thufur/hollow, plant biomass thufur/hollow
-# plot18 <- ggplot(data = FData, mapping = aes(y= GreennessIndex, x = ThufurHollowNA)) +
-#   geom_boxplot()
-# plot19 <- ggplot(data = FData, mapping = aes(y= PlantBiomass, x = ThufurHollowNA)) +
-#   geom_boxplot()
-# # Arrange the plots side by side
-# combinedPlot18.19 <- grid.arrange(plot18, plot19, ncol = 2)
-# ggsave(filename = "4.Results/Expl.Box.GreennessBiomassThufurHollow.png", 
-#        plot = combinedPlot18.19, width = 12, height = 6, dpi = 300)
 

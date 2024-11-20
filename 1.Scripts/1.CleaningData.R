@@ -41,6 +41,7 @@ vegData[is.na(vegData)] <- 0  # Fill empty cells with 0
 vegData <- as.data.frame(t(vegData))
 
 envData <- eData[, c("GreennessIndex",
+                     "Contrast",
                      "PlantBiomass",
                      "VerticalWaterDistance", 
                      "SoilMoistureAvrg", 

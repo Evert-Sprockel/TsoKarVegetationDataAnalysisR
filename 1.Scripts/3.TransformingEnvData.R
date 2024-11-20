@@ -20,7 +20,7 @@ envData <- as.matrix(read.csv("2.Data/envDataWithShannon.csv", row.names = 1))
 # Returns none
 checkNormality <- function(transformType, data) {
   png(filename = paste0("4.Results/Transf.EnvironmentalGradients", transformType, ".png"), width = 1500, height = 1000)
-  par(mfrow = c(2, ncol(data) %/% 2), cex.main = 1.5, cex.axis = 1.2, cex.lab = 1.4) # plot side by side
+  par(mfrow = c(2, ceiling(ncol(data) / 2)), cex.main = 1.5, cex.axis = 1.2, cex.lab = 1.4) # plot side by side
   
   for (colName in colnames(data)) {
     test <- shapiro.test(data[, colName])
@@ -74,15 +74,15 @@ transformData <- function(df, transformTypes) {
 checkNormality("", envData)
 
 # Log transform every variable
-envDataLog <- transformData(envData, transformTypes = c("log", "log", "log", "log", "log", "log", "log", "log", "log", "log"))
+envDataLog <- transformData(envData, transformTypes = c("log", "log", "log", "log", "log", "log", "log", "log", "log", "log", "log"))
 checkNormality("Log", envDataLog)
 
 # Square root transform every variable
-envDataSqrt <- transformData(envData, transformTypes = c("sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt"))
+envDataSqrt <- transformData(envData, transformTypes = c("sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt", "sqrt"))
 checkNormality("Sqrt", envDataSqrt)
 
 # Choose the best transformations for each variable
-envDataFinal <- transformData(envData, transformTypes = c("none", "log", "log", "none", "log", "log", "log", "log", "none", "none"))
+envDataFinal <- transformData(envData, transformTypes = c("none", "none", "log", "log", "none", "log", "log", "log", "log", "none", "none"))
 checkNormality("Final", envDataFinal)
 
 
