@@ -64,7 +64,7 @@ dim(envData)
 
 ################# Exporting the data
 
-write.csv(vegData, "2.Data/vegData.csv", row.names = TRUE)
-write.csv(envData, "2.Data/envData.csv", row.names = TRUE)
+write.csv(vegData, "3.TemporaryFiles/vegData.csv", row.names = TRUE)
+write.csv(envData, "3.TemporaryFiles/envData.csv", row.names = TRUE)
 
 

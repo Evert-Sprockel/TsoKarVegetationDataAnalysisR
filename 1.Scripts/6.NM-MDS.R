@@ -62,13 +62,13 @@ library(vegan)
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("2.Data/envDataWithShannonTransformed.csv", row.names = 1))
+envData <- as.matrix(read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1))
 envData <- envData[, c("VerticalWaterDistanceLog", "SoilMoistureAvrg", "pHLog", "SalinityAdjustedLog", "BulkDensityIncRootsLog")]
-vegData <- as.matrix(read.csv("2.Data/vegData.csv", row.names = 1))
+vegData <- as.matrix(read.csv("3.TemporaryFiles/vegData.csv", row.names = 1))
 
 # Loading the cluster data from the script "Clustering.R"
-plotclusters <- read.csv("2.Data/Clusters.Plots.1ward.D.csv")
-speciesClusters <- read.csv("2.Data/Clusters.Species.1ward.D.csv")
+plotclusters <- read.csv("3.TemporaryFiles/Clusters.Plots.1ward.D.csv")
+speciesClusters <- read.csv("3.TemporaryFiles/Clusters.Species.1ward.D.csv")
 
 
 ########################### Plotting function

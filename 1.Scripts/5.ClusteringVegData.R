@@ -57,7 +57,7 @@ library(vegan)
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-vegData <- as.matrix(read.csv("2.Data/vegData.csv", row.names = 1))
+vegData <- as.matrix(read.csv("3.TemporaryFiles/vegData.csv", row.names = 1))
 
 
 ########################### Function for running the clustering
@@ -99,7 +99,7 @@ clusterAndSavePlot <- function(tab, fileName, data, clusterinMethod) {
 saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
   clusters <- cutree(clusters, k = numClust)
   cluster_data <- data.frame(SampleID = rownames(data), Cluster = clusters)
-  write.csv(cluster_data, paste0("2.Data/Clusters.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
+  write.csv(cluster_data, paste0("3.TemporaryFiles/Clusters.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
 }
 
 

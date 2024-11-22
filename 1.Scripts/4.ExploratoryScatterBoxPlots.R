@@ -12,8 +12,8 @@ library(gridExtra)
 
 ########################### Importing data
 
-vegData <- read.csv("2.Data/vegData.csv", row.names = 1)
-envData <- read.csv("2.Data/envDataWithShannonTransformed.csv", row.names = 1)
+vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
+envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
 
 # FData$SoilTexture <- as.factor(FData$SoilTexture)  # Change the data type of a column
 # FData$AnimalActivity <- as.factor(FData$AnimalActivity)  # Change the data type of a column

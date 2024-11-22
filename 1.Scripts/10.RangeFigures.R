@@ -16,9 +16,8 @@ library(hrbrthemes)
 ########################### Importing data
 
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- read.csv("2.Data/envDataWithShannonTransformed.csv")
-envData <- envData[, c("X", "VerticalWaterDistance", "SoilMoistureAvrg", "pH", "SalinityAdjusted", "BulkDensityIncRoots")]
-vegData <- read.csv("2.Data/vegData.csv")
+envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv")
+vegData <- read.csv("3.TemporaryFiles/vegData.csv")
 envData <- envData %>%
   rename("Plot" = "X")
 vegData <- vegData %>%
@@ -78,13 +77,17 @@ plot1 <- createPlot(vegData, envData, "VerticalWaterDistance")
 plot2 <- createPlot(vegData, envData, "SoilMoistureAvrg")
 plot3 <- createPlot(vegData, envData, "pH")
 plot4 <- createPlot(vegData, envData, "SalinityAdjusted")
-plot5 <- createPlot(vegData, envData, "BulkDensityIncRoots")
+plot5 <- createPlot(vegData, envData, "EC")
+plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots")
+
+
+
 
 
 ########################### Saving image
 
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
-combined_plot <- grid.arrange(plot1, plot2, plot3, plot4, plot5, ncol = 3)
+combined_plot <- grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, ncol = 3)
 ggsave("4.Results/SpeciesRanges.png", 
        plot = combined_plot,
        dpi = 200,

@@ -10,7 +10,7 @@ rm(list = ls()) # Cleaning the environment
 ########################### Importing data
 
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("2.Data/envDataWithShannon.csv", row.names = 1))
+envData <- as.matrix(read.csv("3.TemporaryFiles/envDataWithShannon.csv", row.names = 1))
 
 
 ########################### Function for checking normality
@@ -102,7 +102,7 @@ envDataMerged[colnames(envData)] <- envData
 envDataMerged[colnames(envDataFinal)] <- envDataFinal
 
 
-write.csv(envDataMerged, "2.Data/envDataWithShannonTransformed.csv", row.names = TRUE)
+write.csv(envDataMerged, "3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = TRUE)
 
 
 

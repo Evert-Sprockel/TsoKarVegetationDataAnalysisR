@@ -14,38 +14,43 @@ rm(list = ls()) # Cleaning the environment
 
 library(ggplot2)
 library(vegan)
-library(DHARMa)
+library(MuMIn)
+library(car)
 
 ########################### Importing data
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- read.csv("2.Data/envDataWithShannonTransformed.csv", row.names = 1)
+envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
 
 
 # first use un-transformed variables
-model <- glm(PlantBiomassLog ~ VerticalWaterDistanceLog + SoilMoistureAvrg + pHLog +
-             ECLog + SalinityAdjustedLog + BulkDensityIncRootsLog,
+model <- glm(PlantBiomassLog ~ scale(VerticalWaterDistanceLog) + scale(SoilMoistureAvrg) + scale(pHLog) +
+               scale(SalinityAdjustedLog) + scale(BulkDensityIncRootsLog),
              family = Gamma(link = "log"), data = envData)
 summary(model)
+vif(model)
 
 par(mfrow = c(2, 2))
 plot(model)
-simulationOutput <- simulateResiduals(fittedModel = model)
-plot(simulationOutput)
-
-dispersion <- sum(resid(model, type = "pearson")^2) / df.residual(model)
-dispersion
-
-step(model, direction = "both")
 
 
+#option 3: model averaging
+#Mainly for EXPLORATORY research i.e. you went out into the field and measured lots of things and you don't know what might effect what or which variables to keep in the model.
+options(na.action=na.fail)
+models <- dredge(model) #all possible models. you can limit the dredge in many ways, e.g. to only a few variables or excluding combinations of variables. see help pages.
+models
+modelset <- get.models(models, subset = delta < 2) #subsetting models within 2 AICc of best model
+modeltable <- model.sel(modelset) #table of the selected models
+modeltable
+avgmod <- model.avg(modelset) #averaging the selected models
+avgmodsumm <- summary(avgmod) #storing the average model summary
+avgmodsumm
+coeftable <- as.data.frame(avgmodsumm$coefmat.full) #table of the "full" coefficients, which means that variables were assigned a coefficient of zero if they are not present in the model.
 
-# TODO: use a model selection tool to see which variables are most
-# important. And then use the box cox transformation
 
 
-# mixed linear model contains random variables: lmer() instead of lm(). Generalized means that a 
-# non-normal variable is used anyway or something: glm()
-# heteroschedasticity: variance residuals is not constant or something. plot(simulateResiduals(mdl))
+
+
+
 
