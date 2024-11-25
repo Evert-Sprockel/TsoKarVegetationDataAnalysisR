@@ -10,6 +10,11 @@
 # install.packages("gridExtra")
 # install.packages("hrbrthemes")
 
+# install.packages("devtools")
+# library(devtools)
+# > install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
+
+
 
 ### REQUIREMENTS OF THIS SCRIPT
 # This script needs to be together with the subscripts and input data in a
@@ -52,7 +57,7 @@ source("1.Scripts/4.ExploratoryScatterBoxPlots.R")
 source("1.Scripts/5.ClusteringVegData.R")
 source("1.Scripts/6.NM-MDS.R")
 source("1.Scripts/7.TestingPlotClusters.R")
-source("1.Scripts/8.LM-ShannonIndex.R")
+source("1.Scripts/8.GLMs.R")
 source("1.Scripts/10.RangeFigures.R")
 
 
