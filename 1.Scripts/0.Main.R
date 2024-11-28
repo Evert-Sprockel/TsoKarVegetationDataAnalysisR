@@ -56,7 +56,8 @@ source("1.Scripts/5.ClusteringVegData.R")
 source("1.Scripts/6.NM-MDS.R")
 source("1.Scripts/7.TestingPlotClusters.R")
 source("1.Scripts/8.GLMs.R")
-source("1.Scripts/9.RangeFigures.R")
+source("1.Scripts/9.PearsonCorrelationGreenness.R")
+source("1.Scripts/10.RangeFigures.R")
 
 
 ########################### 

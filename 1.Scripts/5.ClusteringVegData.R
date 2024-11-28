@@ -7,8 +7,7 @@
 # https://youtu.be/7xHsRkOdVwo?si=lrpQew6NPLB13hli
 # Hierarchical clustering and dendrograms: start by comparing individual samples with each other,
 # and slowly builds bigger and bigger clusters. How these clusters got formed is depicted in a 
-# dendrogram. If there is logically no such thing as nested clusters in your type of data, this 
-# method doesn't make a lot of sense to use. All methods below are 'flat' clustering methods.
+# dendrogram. All methods below are 'flat' clustering methods.
 
 # https://youtu.be/HVXime0nQeI?si=OK8J6_aOJdBTy50m
 # K-nearest neighbor classification: not applicable for the data, because it requires a lot of data
@@ -53,7 +52,7 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 library(ggplot2)
 library(vegan)
 # library(ggdendro)
-library(dendextend)
+# library(dendextend)
 
 
 ########################### Importing data
@@ -65,25 +64,25 @@ vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
 
 ########################### Function for running the clustering
 
-# [Not working correctly]
-createClustersGGplot <- function(data, clusteringMethod) {
-  dend <- as.dendrogram(hclust(dist(data), method = clusteringMethod))
-  ggd1 <- as.ggdend(dend)
-  p2 <- ggplot(ggd1, horiz = TRUE, theme = NULL)  +
-    theme(axis.text.x = element_text(size = 1))  # Adjust size as needed
-
-  # p <- ggplot(segment(data)) +
-  #   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
-  #   geom_text(data = label(data),
-  #             aes(x = x, y = y, label = label, hjust = 0),
-  #             size = 2) +
-  #   coord_flip() +
-  #   scale_y_reverse(expand = c(0.2, 0))
-  ggsave(filename = paste0("4.Results/Clust.Plots.",
-                           clusteringMethod,
-                           ".png"),
-         plot=p2, width=10, height=20, dpi=300)
-}
+# # [Not working correctly]
+# createClustersGGplot <- function(data, clusteringMethod) {
+#   dend <- as.dendrogram(hclust(dist(data), method = clusteringMethod))
+#   ggd1 <- as.ggdend(dend)
+#   p2 <- ggplot(ggd1, horiz = TRUE, theme = NULL)  +
+#     theme(axis.text.x = element_text(size = 1))  # Adjust size as needed
+# 
+#   # p <- ggplot(segment(data)) +
+#   #   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+#   #   geom_text(data = label(data),
+#   #             aes(x = x, y = y, label = label, hjust = 0),
+#   #             size = 2) +
+#   #   coord_flip() +
+#   #   scale_y_reverse(expand = c(0.2, 0))
+#   ggsave(filename = paste0("4.Results/Clust.Plots.",
+#                            clusteringMethod,
+#                            ".png"),
+#          plot=p2, width=10, height=20, dpi=300)
+# }
 
 ## Takes species abundance data and a clustering method and performs normal clustering
 ## Returns a hierarchical clustering object

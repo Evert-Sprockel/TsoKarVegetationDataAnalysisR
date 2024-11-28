@@ -1,5 +1,5 @@
 ### OUTPUT OF THIS SCRIPT:
-# One image for containing several graphs of species range data
+# Images containing several graphs of species range data
 # (No data set)
 
 

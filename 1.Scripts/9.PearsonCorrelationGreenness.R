@@ -1,5 +1,5 @@
 ### OUTPUT OF THIS SCRIPT:
-# A lot of graphs
+# Scatter plots
 # (No data set)
 
 rm(list = ls()) # Cleaning the environment
