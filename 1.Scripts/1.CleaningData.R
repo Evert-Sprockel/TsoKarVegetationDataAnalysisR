@@ -4,7 +4,7 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(readxl)
 
@@ -50,6 +50,18 @@ envData <- eData[, c("GreennessIndex",
                      "SalinityAdjusted", 
                      "BulkDensityIncRoots")]
 
+envDataTAA <- eData[, c("GreennessIndex",
+                        "Contrast",
+                        "PlantBiomass",
+                        "VerticalWaterDistance", 
+                        "SoilMoistureAvrg", 
+                        "pH",
+                        "EC",
+                        "SalinityAdjusted", 
+                        "BulkDensityIncRoots",
+                        "ThufurHollowNA",
+                        "AnimalActivity")]
+
 
 ################# Summary of data
 
@@ -65,6 +77,7 @@ dim(envData)
 ################# Exporting the data
 
 write.csv(vegData, "3.TemporaryFiles/vegData.csv", row.names = TRUE)
-write.csv(envData, "3.TemporaryFiles/envData.csv", row.names = TRUE)
+write.csv(envDataTAA, "3.TemporaryFiles/envData.csv", row.names = TRUE)
+
 
 

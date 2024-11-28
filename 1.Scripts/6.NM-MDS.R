@@ -53,7 +53,7 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)
 library(vegan)
@@ -62,9 +62,13 @@ library(vegan)
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1))
-envData <- envData[, c("VerticalWaterDistanceLog", "SoilMoistureAvrg", "pHLog", "SalinityAdjustedLog", "BulkDensityIncRootsLog")]
-vegData <- as.matrix(read.csv("3.TemporaryFiles/vegData.csv", row.names = 1))
+envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
+envData <- envData[, c("VerticalWaterDistanceLog",
+                       "SoilMoistureAvrg",
+                       "pHLog",
+                       "SalinityAdjustedLog",
+                       "BulkDensityIncRootsLog")]
+vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
 
 # Loading the cluster data from the script "Clustering.R"
 plotclusters <- read.csv("3.TemporaryFiles/Clusters.Plots.1ward.D.csv")
@@ -73,45 +77,80 @@ speciesClusters <- read.csv("3.TemporaryFiles/Clusters.Species.1ward.D.csv")
 
 ########################### Plotting function
 
-plotNMMDS <- function(nmds, file_name, fit) {
-  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
-  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
-  orditorp(nmds, display = "species", col = "blue", cex = 1)
-  orditorp(nmds, display = "sites", col = "black", pch = "+", cex = 1)
-  plot(fit, col = "darkgreen")
-  dev.off()
-}
-
-plotNMMDSWithLines <- function(nmds, file_name, environData, env_variable, fit) {
-  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
-  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
-  orditorp(nmds, display = "species", col = "blue", cex = 1)
-  orditorp(nmds, display = "sites", col = "black", pch = "+", cex = 1)
-  ordisurf(nmds, as.data.frame(environData)[[env_variable]], add = TRUE)
-  plot(fit, col = "darkgreen")
-  dev.off()
-}
-
-plotNMMDSWithSiteClusters <- function(nmds, file_name, fit, cColors) {
-  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
-  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
-  # orditorp(nmds, display = "species", col = cColors, cex = 1)
-  orditorp(nmds, display = "sites", col = cColors, pch = "+", cex = 1)
-  plot(fit, col = "#313131")
-  dev.off()
-}
-
-plotNMMDSWithSpeciesClusters <- function(nmds, file_name, fit, cColors) {
-  png(filename = paste0("4.Results/NMMDS.", file_name, ".png"), width = 1200, height = 1000)
-  plot(nmds, type = "n", cex.axis = 1, cex.lab = 1)
-  orditorp(nmds, display = "species", col = cColors, cex = 1)
-  # orditorp(nmds, display = "sites", col = cColors, pch = "+", cex = 1)
-  plot(fit, col = "#313131")
-  dev.off()
+# This function takes the result from the nmds and fit, and creates and saves an ordination plot
+# Takes a nmds object, a fit object, a file name, a vector of clusters (optional), and a bool
+# Returns nothing
+plotNMMDS <- function(nmds, file_name, fit = NULL, clusters = NULL, ellipses = FALSE) {
+  # Extract NMDS coordinates for sites and species
+  site_scores <- as.data.frame(scores(nmds, display = "sites"))
+  species_scores <- as.data.frame(scores(nmds, display = "species"))
+  
+  # Add site and species labels
+  site_scores$label <- rownames(site_scores)
+  species_scores$label <- rownames(species_scores)
+  
+  # Add clusters if provided
+  if (!is.null(clusters)) {
+    if (length(clusters) != nrow(site_scores)) {
+      stop("The length of 'clusters' must match the number of sites in the NMDS object.")
+    }
+    site_scores$cluster <- as.factor(clusters)
+  }
+  
+  # Base ggplot
+  p <- ggplot() +
+    # Add species as blue text
+    geom_text(data = species_scores, aes(x = NMDS1, y = NMDS2, label = label), 
+              color = "black", size = 4)
+  
+  if (!is.null(clusters)) {
+    # Add sites with different shapes for clusters or default to "+"
+    p <- p + geom_point(data = site_scores, aes(x = NMDS1, y = NMDS2, shape = cluster, color = cluster), 
+               size = 3)
+    if (ellipses) {
+      # Add ellipses around each cluster
+      p <- p + stat_ellipse(data = site_scores, aes(x = NMDS1, y = NMDS2, color = cluster),
+                            level = 0.95, size = 1, linetype = "dashed")
+    }
+  } else {
+    # Add sites with different shapes for clusters or default to "+"
+    p <- p + geom_point(data = site_scores, aes(x = NMDS1, y = NMDS2), 
+                        color = "darkgreen", shape = "+", size = 3) +
+             geom_text(data = site_scores, aes(x = NMDS1, y = NMDS2, label = label), 
+                       color = "darkgreen", hjust = -0.3, vjust = -0.3)
+  }
+    
+  # General plot appearance
+  p <- p + labs(x = "NMDS1", y = "NMDS2", shape = "Cluster") +
+    theme_minimal() +
+    theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 11),
+      legend.position = "right",
+    ) 
+  
+  # Add fitted vectors if provided
+  if (!is.null(fit)) {
+    fit_scores <- as.data.frame(fit$vectors$arrows)
+    fit_scores$label <- rownames(fit_scores)
+    # Scale vectors for better visualization
+    p <- p +
+      geom_segment(data = fit_scores, aes(x = 0, y = 0, xend = NMDS1, yend = NMDS2),
+                   arrow = arrow(length = unit(0.2, "cm")), color = "darkblue") +
+      geom_text(data = fit_scores, aes(x = NMDS1, y = NMDS2, label = label), 
+                color = "darkblue", size = 4, hjust = -0.3, vjust = -0.3)
+  }
+  
+  # Save the plot
+  ggsave(filename = paste0("4.Results/NMMDS.", file_name, ".png"), 
+         plot = p, width = 15, height = 12, dpi = 300, bg = "white")  # Set PNG background to white
 }
 
 
 ########################### The analysis itself
+
+# Set the seed for reproducibility
+set.seed(123) 
 
 ord_nmds <- metaMDS(vegData)
 ord_nmds$stress  # Directly prints stress value: 0.1611827
@@ -126,40 +165,17 @@ print(species_scores)
 # to fit. A dot means all columns of the dataframe.
 ord.fit <- envfit(ord_nmds ~ ., data = as.data.frame(envData), perm = 999) 
 # perm = 999 means that the envfit() function will run 999 permutations (=fits with different 
-# subsets of the data) to determine the significance of associations between species and environmental data
+# subsets of the data) to determine the significance of associations between species and environ-
+# mental data
 ord.fit 
-
-
-########################### Assigning colors from cluster data
-
-Colors <- c("#34e0d9", "#34e067", "#e2be0e", "#6e23b7", "#b72323")
-
-# Define specific colors for each cluster
-plotColors <- as.factor(plotclusters$Cluster)
-# Assign colors to the clusters based on their factor levels
-plotColors <- Colors[plotColors]
-
-# Define specific colors for each cluster
-speciesColors <- as.factor(speciesClusters$Cluster)
-# Assign colors to the clusters based on their factor levels
-speciesColors <- Colors[speciesColors]
 
 
 ########################### Plots
 
-# Regular NM-MDS plot
+plotNMMDS(ord_nmds, "OrdPlotWithoutGradients")
 plotNMMDS(ord_nmds, "OrdPlot", ord.fit)
-
-# Plot with colored clusters
-plotNMMDSWithSiteClusters(ord_nmds, "OrdPlotColoredSiteClusters", ord.fit, plotColors)
-plotNMMDSWithSpeciesClusters(ord_nmds, "OrdPlotColoredSpeciesClusters", ord.fit, speciesColors)
-
-# Plotting NM-MDS with red lines for the variables
-plotNMMDSWithLines(ord_nmds, "OrdPlotpH", envData, "pHLog", ord.fit)
-plotNMMDSWithLines(ord_nmds, "OrdPlotSalinity", envData, "SalinityAdjustedLog", ord.fit)
-plotNMMDSWithLines(ord_nmds, "OrdPlotSoilMoisture", envData, "SoilMoistureAvrg", ord.fit)
-plotNMMDSWithLines(ord_nmds, "OrdPlotVerticalWaterDist", envData, "VerticalWaterDistanceLog", ord.fit)
-plotNMMDSWithLines(ord_nmds, "OrdPlotBulkDensity", envData, "BulkDensityIncRootsLog", ord.fit)
+plotNMMDS(ord_nmds, "OrdPlotClusters", ord.fit, plotclusters$Cluster, FALSE)
+plotNMMDS(ord_nmds, "OrdPlotClustersE", ord.fit, plotclusters$Cluster, TRUE)
 
 
 

@@ -4,8 +4,8 @@
 
 
 rm(list = ls()) # Cleaning the environment
-# ctrl + L in console will clear everything
-# in plot window click broom
+# ctrl + L will clear console
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(vegan)
 library(ggplot2)
@@ -44,9 +44,10 @@ createSinglePlot <- function(type, varY, varX, varY_name, varX_name) {
       geom_smooth(method = "lm") +
       labs(x = varX_name, y = varY_name)
   } else if (type == "box") {
-    plot <- ggplot(data = NULL, mapping = aes(y= varY, x = varX)) +
+    plot <- ggplot(data = NULL, mapping = aes(y= varY, x = varX, color = varX)) +
       geom_boxplot() +
-      labs(x = varX_name, y = varY_name)
+      labs(x = varX_name, y = varY_name)+
+      theme(legend.position = "none")  # Removes the legend
   } else {
     stop("Invalid plot type. Use 'scatter' or 'box'.")
   }
@@ -54,7 +55,7 @@ createSinglePlot <- function(type, varY, varX, varY_name, varX_name) {
 }
 
 
-# Creates a group of boxplots and saves them
+# Creates a group of plots and saves them
 # Takes a type ('box' or 'scatter'), a dataframe of Y variables, a vector for x, and a group name
 # Returns nothing
 # NOTE: WITHOUT THE ggplotGrob() FUNCTION, ALL PLOTS WILL CONTAIN THE SAME DATA: LAZY EVALUATION
@@ -63,7 +64,7 @@ createAndSavePlots <- function(type, varsY, varX, groupName) {
   nameX <- sub(".*\\$", "", nameX)
   plotList <- list()
   for (name in colnames(varsY)) {
-    currentPlot <- ggplotGrob(createSinglePlot("box", varsY[[name]], varX, name, nameX))
+    currentPlot <- ggplotGrob(createSinglePlot(type, varsY[[name]], varX, name, nameX))
     plotList[[name]] <-  currentPlot
   }
   combined_plot <- do.call(grid.arrange, c(plotList, ncol = ncol(varsY)))
@@ -139,9 +140,6 @@ permnvPostHoc
 # A    A    B    A    AB
 
 
-# do this for the five habitat variables with bonferoni adjustment (multiply p by 5)
-# do this for the four remaining variables separately, no adjustment
-# only do the tukeyHSD for the significant anovas
 runAnovaAndPostHoc(TRUE, envDataHabitat, plotClusters$Cluster)
 runAnovaAndPostHoc(FALSE, envDataOtherVars, plotClusters$Cluster)
 

@@ -4,14 +4,18 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 
 ########################### Importing data
 
-# Load envData and vegData from CSV files, setting the first column as row names
-envData <- as.matrix(read.csv("3.TemporaryFiles/envDataWithShannon.csv", row.names = 1))
+# Load envData from CSV files, setting the first column as row names
+envData <- read.csv("3.TemporaryFiles/envDataWithShannon.csv", row.names = 1)
 
+# Filter out the factor data
+envData$ThufurHollowNA <- as.factor(envData$ThufurHollowNA)
+envData$AnimalActivity <- as.factor(envData$AnimalActivity)
+# envData <- as.matrix(envData[!sapply(envData, is.factor)])
 
 ########################### Function for checking normality
 
@@ -19,6 +23,7 @@ envData <- as.matrix(read.csv("3.TemporaryFiles/envDataWithShannon.csv", row.nam
 # Takes a transform type for the file name and a data frame
 # Returns none
 checkNormality <- function(transformType, data) {
+  data <- data[!sapply(data, is.factor)]
   png(filename = paste0("4.Results/Transf.EnvironmentalGradients", transformType, ".png"), width = 1500, height = 1000)
   par(mfrow = c(2, ceiling(ncol(data) / 2)), cex.main = 1.5, cex.axis = 1.2, cex.lab = 1.4) # plot side by side
   
@@ -33,18 +38,19 @@ checkNormality <- function(transformType, data) {
 # Transforms columns of a data frame either with a log or square root transformation, or none
 # Takes a data frame, a vector with transform types (must be same as no. of cols)
 # Returns a transformed data frame
-transformData <- function(df, transformTypes) {
+transformData <- function(data, transformTypes) {
+  data <- data[!sapply(data, is.factor)]
   # Ensure transformTypes has the same length as the number of columns in df
-  if (length(transformTypes) != ncol(df)) {
+  if (length(transformTypes) != ncol(data)) {
     stop("The length of transformTypes must match the number of columns in the data frame.")
   }
-  dfTransformed <- df  # Create a copy of the original data frame
-  for (i in seq_along(colnames(df))) {
+  dfTransformed <- data  # Create a copy of the original data frame
+  for (i in seq_along(colnames(data))) {
     transformType <- transformTypes[i]
-    colName <- colnames(df)[i]
+    colName <- colnames(data)[i]
     
     # Get the minimum value in the column
-    minValue <- min(df[, colName], na.rm = TRUE)
+    minValue <- min(data[, colName], na.rm = TRUE)
     # If the minimum value is 0 or lower, adjust by adding the absolute value of the minimum
     adjustment = 0
     if (minValue <= 0) {
@@ -52,14 +58,14 @@ transformData <- function(df, transformTypes) {
     }
     
     if (transformType == "log") {
-      dfTransformed[, colName] <- log(df[, colName] + adjustment + 1)  # No need to adjust if min > 0
+      dfTransformed[, colName] <- log(data[, colName] + adjustment + 1)  # No need to adjust if min > 0
       colnames(dfTransformed)[i] <- paste(colName, "Log", sep = "")
     } else if (transformType == "sqrt") {
-      dfTransformed[, colName] <- sqrt(df[, colName] + adjustment)
+      dfTransformed[, colName] <- sqrt(data[, colName] + adjustment)
       colnames(dfTransformed)[i] <- paste(colName, "Sqrt", sep = "")
     } else if (transformType == "none") {
       # No transformation (keep the column as is)
-      dfTransformed[, colName] <- df[, colName]
+      dfTransformed[, colName] <- data[, colName]
     } else {
       stop("Invalid transformation type: use 'log', 'sqrt', or 'none'.")
     }
@@ -103,8 +109,4 @@ envDataMerged[colnames(envDataFinal)] <- envDataFinal
 
 
 write.csv(envDataMerged, "3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = TRUE)
-
-
-
-
 

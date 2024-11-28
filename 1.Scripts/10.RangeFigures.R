@@ -5,7 +5,7 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)
 library(tidyverse)
@@ -80,20 +80,30 @@ plot4 <- createPlot(vegData, envData, "SalinityAdjusted")
 plot5 <- createPlot(vegData, envData, "EC")
 plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots")
 
-
-
+p1 <- createPlot(vegData, envData, "GreennessIndex")
+p2 <- createPlot(vegData, envData, "Contrast")
+p3 <- createPlot(vegData, envData, "PlantBiomass")
+p4 <- createPlot(vegData, envData, "ShannonIndex")
 
 
 ########################### Saving image
 
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
 combined_plot <- grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, ncol = 3)
-ggsave("4.Results/SpeciesRanges.png", 
+ggsave("4.Results/SpeciesRangesHabitat.png", 
        plot = combined_plot,
        dpi = 200,
        width = 12,
        height = 8,
        units = "in")
 
+# Arrange the plots in a grid (e.g., 2 rows, 3 columns)
+combined_plot <- grid.arrange(p1, p2, p3, p4)
+ggsave("4.Results/SpeciesRangesOtherVars.png", 
+       plot = combined_plot,
+       dpi = 200,
+       width = 12,
+       height = 8,
+       units = "in")
 
 

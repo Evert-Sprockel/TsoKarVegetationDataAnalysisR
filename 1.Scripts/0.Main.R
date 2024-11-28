@@ -9,16 +9,16 @@
 # install.packages("tidyverse")
 # install.packages("gridExtra")
 # install.packages("hrbrthemes")
+# install.packages("ggdendro")
 
 # install.packages("devtools")
 # library(devtools)
-# > install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
+# install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
 
 
-
-### REQUIREMENTS OF THIS SCRIPT
-# This script needs to be together with the subscripts and input data in a
-# project with the following folder structure:
+### REQUIREMENTS
+# This script needs to be together with the subscripts and input data in a project with the 
+# following folder structure:
 # - Working directory
 #   - 1.Scripts
 #       - [all scripts]
@@ -29,23 +29,21 @@
 #   - 4.Results (empty)
 
 
-### INPUT OF THIS SCRIPT:
+### INPUT:
 # This project needs two Excel data sheets: 
 # - EnvironmentalData.xlsx
 # - VegetationData.xlsx
 
 
-## OUTPUT OF THIS SCRIPT:
-# During execution, several version of the Excel sheets will be produced and
-# stored in the TemporaryFiles folder. These can be removed later. In the 
-# Results folder, all the graphs and diagrams will be saved
+## OUTPUT:
+# During execution, several versions of the Excel sheets will be produced and stored as csv files in 
+# the TemporaryFiles folder. These can be removed later. In the Results folder, all the graphs and 
+# diagrams will be saved.
 
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
-
-
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 
 ########################### Running source files
@@ -58,10 +56,11 @@ source("1.Scripts/5.ClusteringVegData.R")
 source("1.Scripts/6.NM-MDS.R")
 source("1.Scripts/7.TestingPlotClusters.R")
 source("1.Scripts/8.GLMs.R")
-source("1.Scripts/10.RangeFigures.R")
+source("1.Scripts/9.RangeFigures.R")
 
 
 ########################### 
 
 rm(list = ls()) # Cleaning the environment
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 

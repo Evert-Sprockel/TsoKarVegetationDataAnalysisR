@@ -4,10 +4,11 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)
 library(vegan)
+
 
 ########################### Importing data
 

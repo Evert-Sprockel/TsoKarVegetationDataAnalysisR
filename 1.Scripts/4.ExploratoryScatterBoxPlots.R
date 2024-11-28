@@ -4,7 +4,7 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)  # includes ggplot
 library(gridExtra)
@@ -14,10 +14,6 @@ library(gridExtra)
 
 vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
 envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
-
-# FData$SoilTexture <- as.factor(FData$SoilTexture)  # Change the data type of a column
-# FData$AnimalActivity <- as.factor(FData$AnimalActivity)  # Change the data type of a column
-# FData$ThufurHollowNA <- as.factor(FData$ThufurHollowNA)  # Change the data type of a column
 
 
 ########################### Function for creating plots
@@ -123,7 +119,7 @@ createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envDa
 createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$SalinityAdjustedLog)
 createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$BulkDensityIncRootsLog)
 
-createSinglePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness)
+
 
 createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistureAvrg)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$ECLog)
@@ -140,5 +136,3 @@ plotcolor <- ggplot(data = envData, mapping = aes(y = GreennessIndex, x = SoilMo
   scale_color_gradientn(colors = rainbow(10)) 
 ggsave(filename = paste0("4.Results/Expl.Sctr.GreennessSoilMoistureCOLORED.png"),
        plot = plotcolor, width=8, height=6, dpi=300)
-
-

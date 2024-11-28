@@ -48,19 +48,42 @@
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L will clear console
-# in plot window click broom
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)
 library(vegan)
+# library(ggdendro)
+library(dendextend)
+
 
 ########################### Importing data
 
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
-vegData <- as.matrix(read.csv("3.TemporaryFiles/vegData.csv", row.names = 1))
+vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
 
 
 ########################### Function for running the clustering
+
+# [Not working correctly]
+createClustersGGplot <- function(data, clusteringMethod) {
+  dend <- as.dendrogram(hclust(dist(data), method = clusteringMethod))
+  ggd1 <- as.ggdend(dend)
+  p2 <- ggplot(ggd1, horiz = TRUE, theme = NULL)  +
+    theme(axis.text.x = element_text(size = 1))  # Adjust size as needed
+
+  # p <- ggplot(segment(data)) +
+  #   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+  #   geom_text(data = label(data),
+  #             aes(x = x, y = y, label = label, hjust = 0),
+  #             size = 2) +
+  #   coord_flip() +
+  #   scale_y_reverse(expand = c(0.2, 0))
+  ggsave(filename = paste0("4.Results/Clust.Plots.",
+                           clusteringMethod,
+                           ".png"),
+         plot=p2, width=10, height=20, dpi=300)
+}
 
 ## Takes species abundance data and a clustering method and performs normal clustering
 ## Returns a hierarchical clustering object
@@ -104,6 +127,8 @@ saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
 
 
 ########################### Clustering the plots based on the species
+
+# createClustersGGplot(vegData, "ward.D")
 
 # Other clustering options: ward.D2, single, complete, average, mcquitty, median, centroid
 clusters <- clusterAndSavePlot(FALSE, "Plots.1", vegData, "ward.D")
