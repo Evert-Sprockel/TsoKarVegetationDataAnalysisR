@@ -119,6 +119,7 @@ runGLM <- function(depVar, data, useGamma = FALSE, link="log") {
   modelTable <- model.sel(modelSet) #table of the selected models
   avgMod <- model.avg(modelSet) #averaging the selected models
   avgModSumm <- summary(avgMod) #storing the average model summary
+  con <- confint(avgMod, level=.95, full=TRUE)
   # Table of the "full" coefficients, which means that variables were assigned a coefficient of zero 
   # if they are not present in the model.
   coefTable <- as.data.frame(avgModSumm$coefmat.full) 
@@ -126,9 +127,10 @@ runGLM <- function(depVar, data, useGamma = FALSE, link="log") {
   cat("\n\n===================== models\n")
   print(models)
   cat("\n\n===================== model table\n")
-  print(modelTable)
+  print(modelTable)  # include this in report
   cat("\n\n===================== avgModSumm\n")
   print(avgModSumm)
+  print(con)
   cat("\n\n===================== coefTable\n")
   print(coefTable)
 }
@@ -136,14 +138,14 @@ runGLM <- function(depVar, data, useGamma = FALSE, link="log") {
 
 ########################### Analysis
 
-# runGLM(envData$PlantBiomassLog, envData, FALSE)  # Worse
+runGLM(envData$PlantBiomassLog, envData, FALSE)  # Worse
 runGLM(envData$PlantBiomassLog, envData, TRUE, "log")
 
 runGLM(envData$ShannonIndex, envData, FALSE)
 # runGLM(envData$ShannonIndex, envData, TRUE, "log")  # Worse (after scaling)
 
 runGLM(envData$SpeciesRichness, envData, FALSE)
-# runGLM(envData$SpeciesRichness, envData, TRUE, "log")  # Worse
+runGLM(envData$SpeciesRichness, envData, TRUE, "log")  # Worse
 
 
 ########################### Visualization for plant biomass

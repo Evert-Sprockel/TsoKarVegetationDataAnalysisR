@@ -54,6 +54,7 @@ runPearson <- function(x, y) {
     stop("Vectors x and y must have the same length.")
   }
   correlation_result <- cor.test(x, y, method = "pearson")
+  print(correlation_result)
   return(correlation_result)
 }
 
@@ -99,4 +100,5 @@ ggsave("4.Results/PCor.GreennessEnv.png",
        height = 8,
        units = "in")
 
+runPearson(envData$GreennessIndex, envData$Contrast)
 

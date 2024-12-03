@@ -40,6 +40,24 @@
 
 
 
+
+
+
+
+
+## maybe take a look at this again:
+# https://uc-r.github.io/hc_clustering
+
+
+
+
+
+
+
+
+
+
+
 ### OUTPUT OF THIS SCRIPT:
 # cluster dendograms images
 # Two data sets: plots with cluster numbers, and species with cluster numbers
