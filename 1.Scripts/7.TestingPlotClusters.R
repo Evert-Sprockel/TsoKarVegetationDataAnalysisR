@@ -35,19 +35,27 @@ plotClusters$Cluster <- as.factor(plotClusters$Cluster)
 ########################### Functions
 
 # Creates a single scatter or box plot
-# Takes a type ('box' or 'scatter'), two vectors and a name for the y var
+# Takes a type ('box' or 'scatter'), two vectors with name, and integer for font size in points
 # Returns a ggplot2 object
-createSinglePlot <- function(type, varY, varX, varY_name, varX_name) {
+createSinglePlot <- function(type, varY, varX, varY_name, varX_name, fontSize = 6) {
+  # Theme for the plots
+  base_theme <- theme_minimal() +
+    theme(
+      axis.text = element_text(size = fontSize),
+      axis.title = element_text(size = fontSize),
+    )
   if (type == "scatter") {
-    plot <- ggplot(data = NULL, mapping = aes(y= varY, x = varX)) +
+    plot <- ggplot(mapping = aes(y = varY, x = varX)) +
       geom_point() +
       geom_smooth(method = "lm") +
-      labs(x = varX_name, y = varY_name)
+      labs(x = varX_name, y = varY_name) +
+      base_theme
   } else if (type == "box") {
-    plot <- ggplot(data = NULL, mapping = aes(y= varY, x = varX, color = varX)) +
+    plot <- ggplot(mapping = aes(y = varY, x = varX, color = varX)) +
       geom_boxplot() +
-      labs(x = varX_name, y = varY_name)+
-      theme(legend.position = "none")  # Removes the legend
+      labs(x = varX_name, y = varY_name) +
+      base_theme +
+      theme(legend.position = "none")
   } else {
     stop("Invalid plot type. Use 'scatter' or 'box'.")
   }
@@ -63,17 +71,22 @@ createAndSavePlots <- function(type, varsY, varX, groupName) {
   nameX <- deparse(substitute(varX))
   nameX <- sub(".*\\$", "", nameX)
   plotList <- list()
+  # Create plots for each column in varsY
   for (name in colnames(varsY)) {
-    currentPlot <- ggplotGrob(createSinglePlot(type, varsY[[name]], varX, name, nameX))
-    plotList[[name]] <-  currentPlot
+    plotList[[name]] <- ggplotGrob(createSinglePlot(type, varsY[[name]], varX, name, nameX))
   }
+  # Combine plots using gridExtra
   combined_plot <- do.call(grid.arrange, c(plotList, ncol = ncol(varsY)))
-  ggsave(paste0("4.Results/TestingClusters.", groupName, ".png"),
-         plot = combined_plot,
-         dpi = 200,
-         width = (ncol(varsY) * 3),
-         height = 5,
-         units = "in")
+  # Save the combined plot
+  ggsave(
+    filename = paste0("4.Results/TestingClusters.", groupName, ".pdf"),
+    plot = combined_plot,
+    device = cairo_pdf,
+    dpi = 300,
+    width = (ncol(varsY) * 3.68),
+    height = 6,
+    units = "cm"
+  )
 }
 
 

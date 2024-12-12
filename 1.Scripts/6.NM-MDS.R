@@ -81,6 +81,8 @@ speciesClusters <- read.csv("3.TemporaryFiles/Clusters.Species.1ward.D.csv")
 # Takes a nmds object, a fit object, a file name, a vector of clusters (optional), and a bool
 # Returns nothing
 plotNMMDS <- function(nmds, file_name, fit = NULL, clusters = NULL, ellipses = FALSE) {
+  # set font size in points
+  fontSize = 6
   # Extract NMDS coordinates for sites and species
   site_scores <- as.data.frame(scores(nmds, display = "sites"))
   species_scores <- as.data.frame(scores(nmds, display = "species"))
@@ -98,36 +100,30 @@ plotNMMDS <- function(nmds, file_name, fit = NULL, clusters = NULL, ellipses = F
   }
   
   # Base ggplot
-  p <- ggplot() +
-    # Add species as blue text
-    geom_text(data = species_scores, aes(x = NMDS1, y = NMDS2, label = label), 
-              color = "black", size = 4)
+  p <- ggplot()
   
   if (!is.null(clusters)) {
     # Add sites with different shapes for clusters or default to "+"
     p <- p + geom_point(data = site_scores, aes(x = NMDS1, y = NMDS2, shape = cluster, color = cluster), 
-               size = 3)
+               size = 0.3528 * fontSize) + 
+               scale_shape_discrete(name = "Cluster") +   # Use the same name for both scales
+               scale_color_discrete(name = "Cluster")
     if (ellipses) {
       # Add ellipses around each cluster
       p <- p + stat_ellipse(data = site_scores, aes(x = NMDS1, y = NMDS2, color = cluster),
-                            level = 0.95, size = 1, linetype = "dashed")
+                            level = 0.95, size = 0.8, linetype = "dashed")
     }
   } else {
     # Add sites with different shapes for clusters or default to "+"
     p <- p + geom_point(data = site_scores, aes(x = NMDS1, y = NMDS2), 
-                        color = "darkgreen", shape = "+", size = 3) +
+                        color = "darkgreen", shape = "+", size = 0.3528 * fontSize) +
              geom_text(data = site_scores, aes(x = NMDS1, y = NMDS2, label = label), 
-                       color = "darkgreen", hjust = -0.3, vjust = -0.3)
+                       color = "darkgreen", hjust = -0.3, vjust = -0.3, size = 0.3528 * fontSize)
   }
-    
-  # General plot appearance
-  p <- p + labs(x = "NMDS1", y = "NMDS2", shape = "Cluster") +
-    theme_minimal() +
-    theme(
-      axis.text = element_text(size = 10),
-      axis.title = element_text(size = 11),
-      legend.position = "right",
-    ) 
+  
+  # Add species
+  p <- p + geom_text(data = species_scores, aes(x = NMDS1, y = NMDS2, label = label), 
+                     color = "black", size = 0.3 * fontSize)
   
   # Add fitted vectors if provided
   if (!is.null(fit)) {
@@ -136,14 +132,25 @@ plotNMMDS <- function(nmds, file_name, fit = NULL, clusters = NULL, ellipses = F
     # Scale vectors for better visualization
     p <- p +
       geom_segment(data = fit_scores, aes(x = 0, y = 0, xend = NMDS1, yend = NMDS2),
-                   arrow = arrow(length = unit(0.2, "cm")), color = "darkblue") +
+                   arrow = arrow(length = unit(0.3528 * fontSize, "mm")), color = "darkblue") +
       geom_text(data = fit_scores, aes(x = NMDS1, y = NMDS2, label = label), 
-                color = "darkblue", size = 4, hjust = -0.3, vjust = -0.3)
+                color = "darkblue", size = 0.3 * fontSize, hjust = 0, vjust = 0.3)
   }
   
+  # General plot appearance
+  p <- p + labs(x = "NMDS1", y = "NMDS2", shape = "Cluster") +
+    theme_minimal() +
+    theme(
+      axis.text = element_text(size = fontSize),
+      axis.title = element_text(size = fontSize),
+      legend.position = "right",
+      legend.text = element_text(size = fontSize),
+      legend.title = element_text(size = fontSize)
+    )
+  
   # Save the plot
-  ggsave(filename = paste0("4.Results/NMMDS.", file_name, ".png"), 
-         plot = p, width = 15, height = 12, dpi = 300, bg = "white")  # Set PNG background to white
+  ggsave(filename = paste0("4.Results/NMMDS.", file_name, ".pdf"), 
+         plot = p, width = 18.4, height = 14, dpi = 300, bg = "white", units = "cm")  # Set PNG background to white
 }
 
 

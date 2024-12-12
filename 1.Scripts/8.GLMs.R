@@ -138,14 +138,14 @@ runGLM <- function(depVar, data, useGamma = FALSE, link="log") {
 
 ########################### Analysis
 
-runGLM(envData$PlantBiomassLog, envData, FALSE)  # Worse
+# runGLM(envData$PlantBiomassLog, envData, FALSE)  # Worse
 runGLM(envData$PlantBiomassLog, envData, TRUE, "log")
 
 runGLM(envData$ShannonIndex, envData, FALSE)
 # runGLM(envData$ShannonIndex, envData, TRUE, "log")  # Worse (after scaling)
 
 runGLM(envData$SpeciesRichness, envData, FALSE)
-runGLM(envData$SpeciesRichness, envData, TRUE, "log")  # Worse
+# runGLM(envData$SpeciesRichness, envData, TRUE, "log")  # Worse
 
 
 ########################### Visualization for plant biomass

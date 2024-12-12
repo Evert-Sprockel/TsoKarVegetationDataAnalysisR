@@ -30,23 +30,7 @@
 # only join a cluster, not extend it further.
 
 
-# https://github.com/zdealveindy/twinspanR/
-
 ######################################################
-
-
-
-
-
-
-
-
-
-
-
-
-## maybe take a look at this again:
-# https://uc-r.github.io/hc_clustering
 
 
 
@@ -69,8 +53,7 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 
 library(ggplot2)
 library(vegan)
-# library(ggdendro)
-# library(dendextend)
+library(cluster)
 
 
 ########################### Importing data
@@ -81,26 +64,6 @@ vegData <- read.csv("3.TemporaryFiles/vegData.csv", row.names = 1)
 
 
 ########################### Function for running the clustering
-
-# # [Not working correctly]
-# createClustersGGplot <- function(data, clusteringMethod) {
-#   dend <- as.dendrogram(hclust(dist(data), method = clusteringMethod))
-#   ggd1 <- as.ggdend(dend)
-#   p2 <- ggplot(ggd1, horiz = TRUE, theme = NULL)  +
-#     theme(axis.text.x = element_text(size = 1))  # Adjust size as needed
-# 
-#   # p <- ggplot(segment(data)) +
-#   #   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
-#   #   geom_text(data = label(data),
-#   #             aes(x = x, y = y, label = label, hjust = 0),
-#   #             size = 2) +
-#   #   coord_flip() +
-#   #   scale_y_reverse(expand = c(0.2, 0))
-#   ggsave(filename = paste0("4.Results/Clust.Plots.",
-#                            clusteringMethod,
-#                            ".png"),
-#          plot=p2, width=10, height=20, dpi=300)
-# }
 
 ## Takes species abundance data and a clustering method and performs normal clustering
 ## Returns a hierarchical clustering object
@@ -138,6 +101,9 @@ clusterAndSavePlot <- function(tab, fileName, data, clusterinMethod) {
 ## Returns none
 saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
   clusters <- cutree(clusters, k = numClust)
+  silhouette_widths <- silhouette(clusters, dist(data))
+  avg_silhouette <- mean(silhouette_widths[, 3])
+  print(paste0(numClust, ", ", "avg_silhouette: ", avg_silhouette))
   cluster_data <- data.frame(SampleID = rownames(data), Cluster = clusters)
   write.csv(cluster_data, paste0("3.TemporaryFiles/Clusters.", fileName, clusterinMethod, ".csv"), row.names = FALSE)
 }
@@ -145,14 +111,20 @@ saveClusters <- function(numClust, clusters, fileName, data, clusterinMethod) {
 
 ########################### Clustering the plots based on the species
 
-# createClustersGGplot(vegData, "ward.D")
-
 # Other clustering options: ward.D2, single, complete, average, mcquitty, median, centroid
 clusters <- clusterAndSavePlot(FALSE, "Plots.1", vegData, "ward.D")
 # plotting the clusters with the tabasco function
 clusters <- clusters <- clusterAndSavePlot(TRUE, "Plots.1", vegData, "ward.D")
 # Saving the clusters as a csv
 saveClusters(5, clusters, "Plots.1", vegData, "ward.D")
+
+# Mean silhouette scores (higher is better):
+# 3 clusters: 0.31115
+# 4 clusters: 0.28402
+# 5 clusters: 0.30505
+# 6 clusters: 0.31688
+# 7 clusters: 0.29066
+
 
 ########################### Clustering the species based on the plots
 

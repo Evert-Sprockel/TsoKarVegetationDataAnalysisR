@@ -9,7 +9,8 @@
 # install.packages("tidyverse")
 # install.packages("gridExtra")
 # install.packages("hrbrthemes")
-# install.packages("ggdendro")
+# install.packages("MuMIn")
+# install.packages("car")
 
 # install.packages("devtools")
 # library(devtools)

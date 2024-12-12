@@ -10,7 +10,7 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 library(ggplot2)
 library(tidyverse)
 library(gridExtra)
-library(hrbrthemes)
+library(patchwork)
 
 
 ########################### Importing data
@@ -28,11 +28,23 @@ vegData <- vegData %>%
 
 ########################### Function for creating the plots
 
-createPlot <- function(vegetData, environData, envVar) {
+createPlot <- function(vegetData, environData, envVar, short = FALSE, fontSize = 7) {
   # Reshape species data
   speciesLong <- vegetData %>%
     pivot_longer(cols = -Plot, names_to = "Species", values_to = "Abundance") %>%
     filter(Abundance > 0)
+  
+  if (short) {
+    speciesLong <- speciesLong %>%
+      mutate(Species = if_else(
+        str_detect(Species, "unknown"), 
+        str_replace_all(Species, "\\.([a-zA-Z])", " \\1"), 
+        str_replace(Species, "^([A-Za-z])[a-zA-Z]*\\.([a-zA-Z]+).*", "\\1. \\2")
+      ))
+  } else {
+    speciesLong <- speciesLong %>%
+      mutate(Species = str_replace_all(Species, "\\.([a-zA-Z])", " \\1"))
+  }
   
   # Merge with environmental data
   mergedData <- speciesLong %>%
@@ -54,19 +66,23 @@ createPlot <- function(vegetData, environData, envVar) {
   
   # Create the plot
   plot <- ggplot(mergedDataSorted, aes(factor(Species, levels = unique(Species)), y = !!sym(envVar))) +
-    geom_point(aes(color = Species), show.legend = FALSE) +  # Plot environmental variable for each species
-    scale_colour_manual(values = c('species 1' = "#252525", 'species 2' = "#1B9E77")) +  # Color by species
-    labs(y = envVar, x = 'Species') + 
-    theme_ipsum_pub(base_size = 8.5, axis_title_size = 9) +  # Use theme
-    theme(plot.title = element_text(size = 11, face = 'plain', hjust = 0.5), 
-          axis.line = element_line(linewidth = 0.4, linetype = "solid", colour = "black"), 
-          plot.margin = margin(t = 5, r = 5, b = 5, l = 5),
-          axis.text.x = element_text(angle = 90, hjust = 1)) +
-    # Add vertical lines from min to max environmental variable for each species
-    geom_segment(data = meanValuePerSpecies, aes(x = Species, xend = Species, y = min_envVar, yend = max_envVar), color = "#1B9E77") +
+    # Individual measurements of each physical plot
+    geom_point(color =  '#CCCCCC', show.legend = FALSE, size = fontSize * 0.2) +
+    # Add vertical lines from min to max variable range for each species
+    geom_segment(data = meanValuePerSpecies, aes(x = Species, xend = Species, y = min_envVar, yend = max_envVar), color = "#00BFC4") +
     # Add mean environmental variable as a point for each species
-    geom_point(data = meanValuePerSpecies, aes(x = Species, y = mean_envVar), color = "#FFD561", size = 3)  # Yellow for the mean
-  
+    geom_point(data = meanValuePerSpecies, aes(x = Species, y = mean_envVar), color = "#F8766D", size = fontSize * 0.2) +
+    # Add labels
+    labs(y = envVar, x = NULL) + 
+    # Theme specification
+    theme_minimal() +
+    theme(plot.title = element_text(size = fontSize, face = 'plain', hjust = 0.5), 
+          axis.line = element_line(linewidth = 0.4, linetype = "solid", colour = "black"), 
+          plot.margin = margin(t = 0, r = 0, b = 0, l = 0),
+          axis.title.x = element_text(size = fontSize*.6),  # Axis titles
+          axis.title.y = element_text(size = fontSize),  # Axis titles
+          axis.text.x = element_text(size = fontSize*.9, angle = 90, hjust = 1),
+          axis.text.y = element_text(size = fontSize))
   return(plot)
 }
 
@@ -75,35 +91,33 @@ createPlot <- function(vegetData, environData, envVar) {
 
 plot1 <- createPlot(vegData, envData, "VerticalWaterDistance")
 plot2 <- createPlot(vegData, envData, "SoilMoistureAvrg")
-plot3 <- createPlot(vegData, envData, "pH")
-plot4 <- createPlot(vegData, envData, "SalinityAdjusted")
-plot5 <- createPlot(vegData, envData, "EC")
-plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots")
+plot3 <- createPlot(vegData, envData, "pH", TRUE)
+plot4 <- createPlot(vegData, envData, "SalinityAdjusted", TRUE)
+plot5 <- createPlot(vegData, envData, "EC", TRUE)
+plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots", TRUE)
 
 p1 <- createPlot(vegData, envData, "GreennessIndex")
 p2 <- createPlot(vegData, envData, "Contrast")
-p3 <- createPlot(vegData, envData, "PlantBiomass")
-p4 <- createPlot(vegData, envData, "ShannonIndex")
+p3 <- createPlot(vegData, envData, "PlantBiomass", TRUE)
+p4 <- createPlot(vegData, envData, "ShannonIndex", TRUE)
 
 
 ########################### Saving image
 
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
-combined_plot <- grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, ncol = 3)
-ggsave("4.Results/SpeciesRangesHabitat.png", 
-       plot = combined_plot,
-       dpi = 200,
-       width = 12,
-       height = 8,
-       units = "in")
+final_plot <- (plot1 | plot2) / (plot3 | plot4) / (plot5 | plot6)
+ggsave("4.Results/SpeciesRangesHabitat.pdf", 
+       plot = final_plot,
+       width = 18.4,
+       height = 18,
+       units = "cm")
 
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
-combined_plot <- grid.arrange(p1, p2, p3, p4)
-ggsave("4.Results/SpeciesRangesOtherVars.png", 
-       plot = combined_plot,
-       dpi = 200,
-       width = 12,
-       height = 8,
-       units = "in")
+final_plot <- (p1 | p2) / (p3 | p4)
+ggsave("4.Results/SpeciesRangesOtherVars.pdf", 
+       plot = final_plot,
+       width = 18.4,
+       height = 12,
+       units = "cm")
 
 
