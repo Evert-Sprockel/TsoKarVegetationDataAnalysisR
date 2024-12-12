@@ -18,7 +18,7 @@
 
 
 ### REQUIREMENTS
-# This script needs to be together with the subscripts and input data in a project with the 
+# This script needs to be together with the sub scripts and input data in a project with the 
 # following folder structure:
 # - Working directory
 #   - 1.Scripts
@@ -32,15 +32,18 @@
 
 ### INPUT:
 # This project needs two Excel data sheets: 
-# - EnvironmentalData.xlsx
-# - VegetationData.xlsx
+# - EnvironmentalData.xlsx: contains all measurements except for the vegetation data
+# - VegetationData.xlsx: contains the species list per plot with their abundance in percentages
 
 
 ## OUTPUT:
 # During execution, several versions of the Excel sheets will be produced and stored as csv files in 
 # the TemporaryFiles folder. These can be removed later. In the Results folder, all the graphs and 
-# diagrams will be saved.
+# diagrams will be saved. Test outputs will be printed to the terminal
 
+
+
+########################### Cleaning environment before starting
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
@@ -61,7 +64,7 @@ source("1.Scripts/9.PearsonCorrelationGreenness.R")
 source("1.Scripts/10.RangeFigures.R")
 
 
-########################### 
+########################### Cleaning environment once finished
 
 rm(list = ls()) # Cleaning the environment
 try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
