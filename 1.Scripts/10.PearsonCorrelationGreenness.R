@@ -2,6 +2,7 @@
 # Scatter plots
 # (No data set)
 
+
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
@@ -76,6 +77,7 @@ rNum <- function(num) {
 
 testResults <- list()
 for (i in colnames(envDataVars)) {
+  print(i)
   result <- runPearson(envDataVars[[i]], envData$GreennessIndex)
   # print(result)  # All significant
   testResults[[i]] <- paste0("p=",

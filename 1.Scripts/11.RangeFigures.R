@@ -8,7 +8,9 @@ rm(list = ls()) # Cleaning the environment
 try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
 library(ggplot2)
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(stringr)
 library(gridExtra)
 library(patchwork)
 
@@ -28,7 +30,7 @@ vegData <- vegData %>%
 
 ########################### Function for creating the plots
 
-createPlot <- function(vegetData, environData, envVar, short = FALSE, fontSize = 7) {
+createPlot <- function(vegetData, environData, envVar, short = FALSE, fontSize = 6) {
   # Reshape species data
   speciesLong <- vegetData %>%
     pivot_longer(cols = -Plot, names_to = "Species", values_to = "Abundance") %>%
@@ -49,7 +51,7 @@ createPlot <- function(vegetData, environData, envVar, short = FALSE, fontSize =
   # Merge with environmental data
   mergedData <- speciesLong %>%
     left_join(environData, by = "Plot") %>%
-    select(Species, Plot, envVar)
+    select(Species, Plot, all_of(envVar))
   
   # Calculate the min, max, and mean for each species based on the environmental variable
   meanValuePerSpecies <- mergedData %>%
@@ -81,7 +83,7 @@ createPlot <- function(vegetData, environData, envVar, short = FALSE, fontSize =
           plot.margin = margin(t = 0, r = 0, b = 0, l = 0),
           axis.title.x = element_text(size = fontSize*.6),  # Axis titles
           axis.title.y = element_text(size = fontSize),  # Axis titles
-          axis.text.x = element_text(size = fontSize*.9, angle = 90, hjust = 1),
+          axis.text.x = element_text(size = fontSize*.9, angle = 50, hjust = 1),
           axis.text.y = element_text(size = fontSize))
   return(plot)
 }
@@ -109,7 +111,7 @@ final_plot <- (plot1 | plot2) / (plot3 | plot4) / (plot5 | plot6)
 ggsave("4.Results/SpeciesRangesHabitat.pdf", 
        plot = final_plot,
        width = 18.4,
-       height = 18,
+       height = 16.2,
        units = "cm")
 
 # Arrange the plots in a grid (e.g., 2 rows, 3 columns)
@@ -117,7 +119,7 @@ final_plot <- (p1 | p2) / (p3 | p4)
 ggsave("4.Results/SpeciesRangesOtherVars.pdf", 
        plot = final_plot,
        width = 18.4,
-       height = 12,
+       height = 10.8,
        units = "cm")
 
 

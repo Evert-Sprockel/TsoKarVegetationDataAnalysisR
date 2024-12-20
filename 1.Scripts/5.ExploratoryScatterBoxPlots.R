@@ -1,6 +1,7 @@
 ### OUTPUT OF THIS SCRIPT:
+# A .txt file with basic descriptive statistics
 # A lot of graphs
-# (No data set)
+
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything

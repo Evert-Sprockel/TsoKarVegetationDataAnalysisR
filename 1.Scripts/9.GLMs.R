@@ -2,15 +2,6 @@
 # Test results from generalized linear model printed to the terminal, scatter plots
 # (No data sets)
 
-# The dependent variable is vegetation biomass (PlantBiomassLog, not normal). The independent 
-# variables are:
-# - VerticalWaterDistanceLog (normal)
-# - SoilMoisureAvrg (normal)
-# - pHLog (normal)
-# - ECLog (not normal)
-# - SalinityAdjustedLog (not normal)
-# - BulkDensityIncRootsLog (not normal)
-
 
 rm(list = ls()) # Cleaning the environment
 # ctrl + L will clear console
@@ -124,8 +115,6 @@ runGLM <- function(depVar, data, useGamma = FALSE, link="log") {
   # if they are not present in the model.
   coefTable <- as.data.frame(avgModSumm$coefmat.full) 
   
-  cat("\n\n===================== models\n")
-  print(models)
   cat("\n\n===================== model table\n")
   print(modelTable)  # include this in report
   cat("\n\n===================== avgModSumm\n")

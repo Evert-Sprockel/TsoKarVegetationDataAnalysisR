@@ -55,13 +55,14 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 source("1.Scripts/1.CleaningData.R")
 source("1.Scripts/2.CalculatingRichnessAndShannon.R")
 source("1.Scripts/3.TransformingEnvData.R")
-source("1.Scripts/4.ExploratoryScatterBoxPlots.R")
-source("1.Scripts/5.ClusteringVegData.R")
-source("1.Scripts/6.NM-MDS.R")
-source("1.Scripts/7.TestingPlotClusters.R")
-source("1.Scripts/8.GLMs.R")
-source("1.Scripts/9.PearsonCorrelationGreenness.R")
-source("1.Scripts/10.RangeFigures.R")
+source("1.Scripts/4.BasicDescriptiveStatistics.R")
+source("1.Scripts/5.ExploratoryScatterBoxPlots.R")
+source("1.Scripts/6.ClusteringVegData.R")
+source("1.Scripts/7.NMDS.R")
+source("1.Scripts/8.TestingPlotClusters.R")
+source("1.Scripts/9.GLMs.R")
+source("1.Scripts/10.PearsonCorrelationGreenness.R")
+source("1.Scripts/11.RangeFigures.R")
 
 
 ########################### Cleaning environment once finished

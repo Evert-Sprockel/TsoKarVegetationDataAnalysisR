@@ -65,13 +65,13 @@ envDataTAA <- eData[, c("GreennessIndex",
 
 ################# Summary of data
 
-str(vegData)
-head(vegData)
-dim(vegData)
-
-str(envData)
-head(envData)
-dim(envData)
+# str(vegData)
+# head(vegData)
+# dim(vegData)
+# 
+# str(envData)
+# head(envData)
+# dim(envData)
 
 
 ################# Exporting the data

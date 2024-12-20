@@ -33,8 +33,8 @@ diversityData <- data.frame(
 # Reset row names back to 1, 2, 3, etc.
 rownames(diversityData) <- NULL
 
-# Print the resulting data frame
-print(diversityData)
+# # Print the resulting data frame
+# print(diversityData)
 
 
 ########################### Merging data frame with envData en saving the file

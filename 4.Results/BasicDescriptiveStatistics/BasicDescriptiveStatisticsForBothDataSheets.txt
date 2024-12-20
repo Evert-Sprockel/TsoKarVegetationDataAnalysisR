@@ -1,0 +1,174 @@
+BASIC DESCRIPTIVE STATISTICS OF THE TWO DATA SETS
+
+Environmental data summary:
+ GreennessIndex      Contrast      PlantBiomass   VerticalWaterDistance SoilMoistureAvrg       pH              EC         SalinityAdjusted
+ Min.   :0.3212   Min.   :20.32   Min.   : 8.50   Min.   : -3.00        Min.   : 10.13   Min.   :6.710   Min.   : 162.5   Min.   : 1398   
+ 1st Qu.:0.3638   1st Qu.:41.03   1st Qu.:11.30   1st Qu.:  5.75        1st Qu.: 44.73   1st Qu.:7.495   1st Qu.: 392.1   1st Qu.: 3580   
+ Median :0.3874   Median :47.05   Median :13.00   Median : 14.00        Median : 58.03   Median :7.800   Median : 554.7   Median : 5172   
+ Mean   :0.3877   Mean   :45.69   Mean   :15.83   Mean   : 30.05        Mean   : 57.43   Mean   :7.937   Mean   : 794.3   Mean   : 7705   
+ 3rd Qu.:0.4102   3rd Qu.:51.06   3rd Qu.:19.15   3rd Qu.: 43.50        3rd Qu.: 72.69   3rd Qu.:8.365   3rd Qu.: 863.5   3rd Qu.: 8573   
+ Max.   :0.4687   Max.   :62.53   Max.   :34.70   Max.   :197.00        Max.   :100.00   Max.   :9.220   Max.   :5580.0   Max.   :47988   
+ BulkDensityIncRoots ThufurHollowNA AnimalActivity  ShannonIndex    SpeciesRichness PlantBiomassLog VerticalWaterDistanceLog     pHLog      
+ Min.   :0.1020      Hollow:11      0:76           Min.   :0.0000   Min.   :1.000   Min.   :2.251   Min.   :0.000            Min.   :2.043  
+ 1st Qu.:0.2855      Thufur:16      1:11           1st Qu.:0.4976   1st Qu.:3.000   1st Qu.:2.510   1st Qu.:2.277            1st Qu.:2.139  
+ Median :0.4850      NA's  :60                     Median :0.7982   Median :4.000   Median :2.639   Median :2.890            Median :2.175  
+ Mean   :0.5771                                    Mean   :0.8178   Mean   :3.816   Mean   :2.768   Mean   :2.995            Mean   :2.188  
+ 3rd Qu.:0.7965                                    3rd Qu.:1.1571   3rd Qu.:5.000   3rd Qu.:3.003   3rd Qu.:3.861            3rd Qu.:2.237  
+ Max.   :1.4080                                    Max.   :1.6964   Max.   :8.000   Max.   :3.575   Max.   :5.303            Max.   :2.324  
+     ECLog       SalinityAdjustedLog BulkDensityIncRootsLog
+ Min.   :5.097   Min.   : 7.243      Min.   :0.09713       
+ 1st Qu.:5.974   1st Qu.: 8.183      1st Qu.:0.25114       
+ Median :6.320   Median : 8.551      Median :0.39541       
+ Mean   :6.403   Mean   : 8.676      Mean   :0.43514       
+ 3rd Qu.:6.762   3rd Qu.: 9.056      3rd Qu.:0.58567       
+ Max.   :8.627   Max.   :10.779      Max.   :0.87880       
+
+
+Environmental data structure:
+'data.frame':	87 obs. of  19 variables:
+ $ GreennessIndex          : num  0.396 0.406 0.364 0.367 0.377 ...
+ $ Contrast                : num  58.3 51.2 42.8 41.1 47 ...
+ $ PlantBiomass            : num  21.5 12.2 14 12.5 11.9 15.8 16.9 20.1 18.3 15.3 ...
+ $ VerticalWaterDistance   : num  0 37.5 11.6 23.2 43 5.5 129 8 2.5 14 ...
+ $ SoilMoistureAvrg        : num  76.2 51 63.7 53.9 55 ...
+ $ pH                      : num  7.52 8.14 9.04 9.14 8.88 6.83 8.08 7.55 7.29 7.14 ...
+ $ EC                      : num  490 416 797 585 4190 ...
+ $ SalinityAdjusted        : num  4214 3950 7568 5032 36034 ...
+ $ BulkDensityIncRoots     : num  0.32 0.335 0.363 0.917 0.591 0.143 0.611 0.392 0.206 0.212 ...
+ $ ThufurHollowNA          : Factor w/ 2 levels "Hollow","Thufur": NA 2 1 NA 2 2 NA NA NA NA ...
+ $ AnimalActivity          : Factor w/ 2 levels "0","1": 2 1 1 1 2 1 1 1 1 1 ...
+ $ ShannonIndex            : num  0.206 1.172 0.936 0.778 1.317 ...
+ $ SpeciesRichness         : int  2 5 5 3 6 6 7 4 4 8 ...
+ $ PlantBiomassLog         : num  3.11 2.58 2.71 2.6 2.56 ...
+ $ VerticalWaterDistanceLog: num  1.39 3.73 2.75 3.3 3.85 ...
+ $ pHLog                   : num  2.14 2.21 2.31 2.32 2.29 ...
+ $ ECLog                   : num  6.2 6.03 6.68 6.37 8.34 ...
+ $ SalinityAdjustedLog     : num  8.35 8.28 8.93 8.52 10.49 ...
+ $ BulkDensityIncRootsLog  : num  0.278 0.289 0.31 0.651 0.464 ...
+
+
+Vegetation data summary:
+ Argentina.anserina Astragalus.tribulifolius Gentiana.leucomelaena Glaux.maritima   Halerpestes.lancifolia Halerpestes.sarmentosa Knorringia.pamirica
+ Min.   : 0.000     Min.   : 0.0000          Min.   : 0.0000       Min.   : 0.000   Min.   : 0.000         Min.   : 0.0000        Min.   : 0.00      
+ 1st Qu.: 0.000     1st Qu.: 0.0000          1st Qu.: 0.0000       1st Qu.: 0.000   1st Qu.: 0.000         1st Qu.: 0.0000        1st Qu.: 0.00      
+ Median : 0.000     Median : 0.0000          Median : 0.0000       Median : 0.000   Median : 0.000         Median : 0.0000        Median : 0.00      
+ Mean   : 0.954     Mean   : 0.8103          Mean   : 0.4724       Mean   : 3.717   Mean   : 4.247         Mean   : 0.4494        Mean   : 1.19      
+ 3rd Qu.: 0.000     3rd Qu.: 0.0000          3rd Qu.: 0.0000       3rd Qu.: 2.000   3rd Qu.: 4.500         3rd Qu.: 0.0000        3rd Qu.: 0.00      
+ Max.   :45.000     Max.   :30.0000          Max.   :15.0000       Max.   :50.000   Max.   :45.000         Max.   :15.0000        Max.   :50.00      
+ Lomatogonium.branchyantherum Pedicularis.longiflora.var..tubiformis Pedicularis.rhinanthoides Primula.involucrata Primula.pamirica  Suaeda.olufsenii
+ Min.   :0.00000              Min.   : 0.0000                        Min.   : 0.0000           Min.   :0.000000    Min.   :0.00000   Min.   : 0.000  
+ 1st Qu.:0.00000              1st Qu.: 0.0000                        1st Qu.: 0.0000           1st Qu.:0.000000    1st Qu.:0.00000   1st Qu.: 0.000  
+ Median :0.00000              Median : 0.0000                        Median : 0.0000           Median :0.000000    Median :0.00000   Median : 0.000  
+ Mean   :0.04598              Mean   : 0.3701                        Mean   : 0.2874           Mean   :0.001149    Mean   :0.04598   Mean   : 1.506  
+ 3rd Qu.:0.00000              3rd Qu.: 0.0000                        3rd Qu.: 0.0000           3rd Qu.:0.000000    3rd Qu.:0.00000   3rd Qu.: 0.000  
+ Max.   :2.00000              Max.   :10.0000                        Max.   :25.0000           Max.   :0.100000    Max.   :2.00000   Max.   :60.000  
+ Taraxacum.spp.   Blysmus.kompressus Carex.microglochin Carex.moorcroftii Carex.orbicularis Carex.pseudofoetida Triglochin.maritima Triglochin.palustris
+ Min.   : 0.000   Min.   : 0.00      Min.   : 0.000     Min.   : 0.000    Min.   :  0.000   Min.   :  0.00      Min.   : 0.000      Min.   : 0.000      
+ 1st Qu.: 0.000   1st Qu.: 0.00      1st Qu.: 0.000     1st Qu.: 0.000    1st Qu.:  0.000   1st Qu.:  0.00      1st Qu.: 0.000      1st Qu.: 0.000      
+ Median : 0.000   Median : 0.00      Median : 0.000     Median : 0.000    Median :  0.000   Median :  0.00      Median : 0.000      Median : 0.000      
+ Mean   : 0.146   Mean   :24.14      Mean   : 2.187     Mean   : 5.828    Mean   :  9.149   Mean   : 13.45      Mean   : 2.956      Mean   : 3.075      
+ 3rd Qu.: 0.000   3rd Qu.:52.50      3rd Qu.: 0.000     3rd Qu.: 0.000    3rd Qu.:  0.000   3rd Qu.:  5.00      3rd Qu.: 0.000      3rd Qu.: 1.000      
+ Max.   :10.000   Max.   :95.00      Max.   :75.000     Max.   :65.000    Max.   :100.000   Max.   :100.00      Max.   :60.000      Max.   :75.000      
+ Calamogrostis.holciformis Festuca.olgae     Hordeum.brevisubulatum.subsp..turkes.  Poa.tibetica    Puccinellia.himalaica Puccinellia.ladakhensis
+ Min.   : 0.000            Min.   : 0.0000   Min.   : 0.0000                       Min.   : 0.000   Min.   : 0.000        Min.   : 0.0000        
+ 1st Qu.: 0.000            1st Qu.: 0.0000   1st Qu.: 0.0000                       1st Qu.: 0.000   1st Qu.: 0.000        1st Qu.: 0.0000        
+ Median : 0.000            Median : 0.0000   Median : 0.0000                       Median : 0.000   Median : 0.000        Median : 0.0000        
+ Mean   : 1.817            Mean   : 0.1724   Mean   : 0.3103                       Mean   : 0.123   Mean   : 3.069        Mean   : 0.6092        
+ 3rd Qu.: 0.000            3rd Qu.: 0.0000   3rd Qu.: 0.0000                       3rd Qu.: 0.000   3rd Qu.: 0.000        3rd Qu.: 0.0000        
+ Max.   :40.000            Max.   :10.0000   Max.   :25.0000                       Max.   :10.000   Max.   :55.000        Max.   :15.0000        
+ Poaceae.unknown
+ Min.   : 0.00  
+ 1st Qu.: 0.00  
+ Median : 0.00  
+ Mean   : 7.21  
+ 3rd Qu.: 1.50  
+ Max.   :85.00  
+
+
+Vegetation data structure:
+'data.frame':	87 obs. of  28 variables:
+ $ Argentina.anserina                    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Astragalus.tribulifolius              : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Gentiana.leucomelaena                 : num  0 0 0 0 0.1 0 15 0 0 5 ...
+ $ Glaux.maritima                        : num  0 0 0 0 0 0 10 0 0 0 ...
+ $ Halerpestes.lancifolia                : num  0 30 10 25 15 0 5 0 0 0 ...
+ $ Halerpestes.sarmentosa                : num  0 0 0 0 0 0 0 0 0 15 ...
+ $ Knorringia.pamirica                   : num  0 0 0 10 0 0 0 0 0 0 ...
+ $ Lomatogonium.branchyantherum          : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Pedicularis.longiflora.var..tubiformis: num  0 0 0 0 0 10 0 0.1 0 10 ...
+ $ Pedicularis.rhinanthoides             : num  0 0 0 0 0 25 0 0 0 0 ...
+ $ Primula.involucrata                   : num  0 0 0 0 0 0 0 0 0 0.1 ...
+ $ Primula.pamirica                      : num  0 0 0 0 0 2 0 0 0 0 ...
+ $ Suaeda.olufsenii                      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Taraxacum.spp.                        : num  0 0 0 0 0.1 0.1 0 0 0 0 ...
+ $ Blysmus.kompressus                    : num  90 40 75 0 0 0 50 95 60 0 ...
+ $ Carex.microglochin                    : num  0 0 0 0 0 5 0 0 0 10 ...
+ $ Carex.moorcroftii                     : num  0 0 0 0 0 5 0 0 10 0 ...
+ $ Carex.orbicularis                     : num  0 50 5 0 30 0 0 0 0 30 ...
+ $ Carex.pseudofoetida                   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Triglochin.maritima                   : num  0 0 0 0 0 0 30 4 0.5 0 ...
+ $ Triglochin.palustris                  : num  5 0.1 0.1 0 0 0 0 0.1 0 5 ...
+ $ Calamogrostis.holciformis             : num  0 0 20 0 40 0 0 0 0 3 ...
+ $ Festuca.olgae                         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Hordeum.brevisubulatum.subsp..turkes. : num  0 0 0 0 0 0 2 0 0 0 ...
+ $ Poa.tibetica                          : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Puccinellia.himalaica                 : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Puccinellia.ladakhensis               : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Poaceae.unknown                       : num  0 3 0 85 50.1 0 6 0 40 0 ...
+
+
+Sorted column non-zero counts (number of plots where species were present):
+                    Blysmus.kompressus                   Triglochin.palustris                 Halerpestes.lancifolia 
+                                    39                                     30                                     28 
+                       Poaceae.unknown                         Glaux.maritima                    Carex.pseudofoetida 
+                                    27                                     25                                     22 
+                     Carex.moorcroftii                      Carex.orbicularis                    Triglochin.maritima 
+                                    20                                     20                                     14 
+                    Carex.microglochin                       Suaeda.olufsenii                  Puccinellia.himalaica 
+                                    13                                     10                                     10 
+                 Gentiana.leucomelaena                    Knorringia.pamirica                 Halerpestes.sarmentosa 
+                                     9                                      9                                      8 
+             Calamogrostis.holciformis Pedicularis.longiflora.var..tubiformis                Puccinellia.ladakhensis 
+                                     8                                      7                                      6 
+                        Taraxacum.spp.                     Argentina.anserina               Astragalus.tribulifolius 
+                                     5                                      4                                      4 
+          Lomatogonium.branchyantherum                           Poa.tibetica                       Primula.pamirica 
+                                     3                                      3                                      2 
+                         Festuca.olgae  Hordeum.brevisubulatum.subsp..turkes.              Pedicularis.rhinanthoides 
+                                     2                                      2                                      1 
+                   Primula.involucrata 
+                                     1 
+
+
+Sorted column non-zero means (mean abundance per species only for plots where they occurred):
+                    Blysmus.kompressus                   Triglochin.palustris                 Halerpestes.lancifolia 
+                            0.44827586                             0.34482759                             0.32183908 
+                       Poaceae.unknown                         Glaux.maritima                    Carex.pseudofoetida 
+                            0.31034483                             0.28735632                             0.25287356 
+                     Carex.moorcroftii                      Carex.orbicularis                    Triglochin.maritima 
+                            0.22988506                             0.22988506                             0.16091954 
+                    Carex.microglochin                       Suaeda.olufsenii                  Puccinellia.himalaica 
+                            0.14942529                             0.11494253                             0.11494253 
+                 Gentiana.leucomelaena                    Knorringia.pamirica                 Halerpestes.sarmentosa 
+                            0.10344828                             0.10344828                             0.09195402 
+             Calamogrostis.holciformis Pedicularis.longiflora.var..tubiformis                Puccinellia.ladakhensis 
+                            0.09195402                             0.08045977                             0.06896552 
+                        Taraxacum.spp.                     Argentina.anserina               Astragalus.tribulifolius 
+                            0.05747126                             0.04597701                             0.04597701 
+          Lomatogonium.branchyantherum                           Poa.tibetica                       Primula.pamirica 
+                            0.03448276                             0.03448276                             0.02298851 
+                         Festuca.olgae  Hordeum.brevisubulatum.subsp..turkes.              Pedicularis.rhinanthoides 
+                            0.02298851                             0.02298851                             0.01149425 
+                   Primula.involucrata 
+                            0.01149425 
+
+
+Sorted row non-zero counts (number of species per plot):
+s1t2p4 s1t2p1 s1t3p1 s3t4p1 s1t1p5 s1t1p6 s1t2p6 s1t3p2 s1t3p3 s1t3p6 s2t2p1 s3t1p2 s3t1p3 s3t1p5 s3t2p5 s3t3p2 s3t3p3 s1t1p2 s1t1p3 s1t3p4 s1t3p5 s1t5p5 
+     8      7      7      7      6      6      6      6      6      6      6      6      6      6      6      6      6      5      5      5      5      5 
+s2t3p1 s3t1p6 s3t2p4 s3t4p3 s3t5p1 s1t2p2 s1t2p3 s1t4p3 s1t4p5 s1t4p6 s2t1p3 s2t1p4 s2t2p3 s2t3p2 s2t4p4 s2t4p5 s2t5p4 s3t2p3 s3t3p5 s3t3p6 s3t4p2 s3t5p4 
+     5      5      5      5      5      4      4      4      4      4      4      4      4      4      4      4      4      4      4      4      4      4 
+s3t5p6 s1t1p4 s1t4p1 s1t5p1 s1t5p6 s2t1p1 s2t1p2 s2t1p5 s2t2p2 s2t2p6 s2t3p3 s2t3p4 s2t3p6 s2t4p2 s2t5p3 s2t5p6 s3t1p4 s3t2p1 s3t2p2 s3t2p6 s3t3p1 s3t3p4 
+     4      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3      3 
+s3t4p5 s3t5p5 s1t1p1 s1t4p2 s1t5p2 s1t5p3 s2t2p4 s2t2p5 s2t3p5 s2t4p1 s2t4p3 s2t5p1 s2t5p2 s2t5p5 s3t1p1 s3t4p6 s3t5p2 s1t4p4 s1t5p4 s2t1p6 s3t4p4 
+     3      3      2      2      2      2      2      2      2      2      2      2      2      2      2      2      2      1      1      1      1 
