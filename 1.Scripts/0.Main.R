@@ -6,11 +6,15 @@
 # install.packages("readxl")
 # install.packages("ggplot2")
 # install.packages("vegan")
-# install.packages("tidyverse")
 # install.packages("gridExtra")
-# install.packages("hrbrthemes")
+# install.packages("cluster")
+# install.packages("dplyr")
+# install.packages("stringr")
 # install.packages("MuMIn")
 # install.packages("car")
+# install.packages("tidyr")
+# install.packages("hrbrthemes")
+# install.packages("patchwork")
 
 # install.packages("devtools")
 # library(devtools)
@@ -38,7 +42,7 @@
 
 ## OUTPUT:
 # During execution, several versions of the Excel sheets will be produced and stored as csv files in 
-# the TemporaryFiles folder. These can be removed later. In the Results folder, all the graphs and 
+# the TemporaryFiles folder. These can be removed later. In the Results folder all the graphs and 
 # diagrams will be saved. Test outputs will be printed to the terminal
 
 

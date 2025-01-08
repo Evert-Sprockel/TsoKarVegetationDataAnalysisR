@@ -120,13 +120,10 @@ createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envDa
 createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$SalinityAdjustedLog)
 createDoublePlot("scatter", envData$ShannonIndex, envData$SpeciesRichness, envData$BulkDensityIncRootsLog)
 
-
-
 createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistureAvrg)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$ECLog)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$pHLog)
-createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistureAvrg)
-
+createSinglePlot("scatter", envData$SoilMoistureAvrg, envData$VerticalWaterDistanceLog)
 
 createSinglePlot("scatter", envData$GreennessIndex, envData$Contrast)
 
