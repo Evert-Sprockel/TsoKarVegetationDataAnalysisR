@@ -17,15 +17,39 @@ library(pairwiseAdonis)
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
 envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
-envDataHabitat <- envData[, c("VerticalWaterDistanceLog",
+envDataHabitat <- envData[, c("VerticalWaterDistance",
                               "SoilMoistureAvrg",
-                              "pHLog",
-                              "SalinityAdjustedLog",
-                              "BulkDensityIncRootsLog")]
+                              "pH",
+                              "SalinityAdjusted",
+                              "BulkDensityIncRoots")]
+
+envDataHabitatTransf <- envData[, c("VerticalWaterDistanceLog",
+                                    "SoilMoistureAvrg",
+                                    "pHLog",
+                                    "SalinityAdjustedLog",
+                                    "BulkDensityIncRootsLog")]
+
+habitatVarsNames <- c("Vertical water distance (cm)",
+                      "Soil moisture (%)",
+                      "pH",
+                      "Salinity (µS/m)",
+                      "Bulk density (g/cm3)")
+
+
 envDataOtherVars <- envData[, c("GreennessIndex",
-                                "PlantBiomassLog",
+                                "PlantBiomass",
                                 "ShannonIndex",
                                 "SpeciesRichness")]
+
+envDataOtherVarsTransf <- envData[, c("GreennessIndex",
+                                      "PlantBiomassLog",
+                                      "ShannonIndex",
+                                      "SpeciesRichness")]
+
+otherVarsNames <- c("Greenness index",
+                    "Plant biomass (g)",
+                    "Shannon diversity index",
+                    "Species richness")
 
 # Loading the cluster data from the script "Clustering.R"
 plotClusters <- read.csv("3.TemporaryFiles/Clusters.Plots.1ward.D.csv")
@@ -67,13 +91,18 @@ createSinglePlot <- function(type, varY, varX, varY_name, varX_name, fontSize = 
 # Takes a type ('box' or 'scatter'), a dataframe of Y variables, a vector for x, and a group name
 # Returns nothing
 # NOTE: WITHOUT THE ggplotGrob() FUNCTION, ALL PLOTS WILL CONTAIN THE SAME DATA: LAZY EVALUATION
-createAndSavePlots <- function(type, varsY, varX, groupName) {
+createAndSavePlots <- function(type, varsY, varX, groupName, namesVector) {
+  if (length(namesVector) != ncol(varsY)) {
+    stop("Length of namesVector must match the number of columns in varsY.")
+  }
+  
   nameX <- deparse(substitute(varX))
   nameX <- sub(".*\\$", "", nameX)
   plotList <- list()
   # Create plots for each column in varsY
-  for (name in colnames(varsY)) {
-    plotList[[name]] <- ggplotGrob(createSinglePlot(type, varsY[[name]], varX, name, nameX))
+  for (i in seq_along(namesVector)) {
+    varName <- namesVector[i]
+    plotList[[varName]] <- ggplotGrob(createSinglePlot(type, varsY[[i]], varX, varName, nameX))
   }
   # Combine plots using gridExtra
   combined_plot <- do.call(grid.arrange, c(plotList, ncol = ncol(varsY)))
@@ -127,10 +156,10 @@ runAnovaAndPostHoc <- function(doBonferoniAdjust, data, groups) {
 ########################### Creating figures
 
 # Create one figure for all five environmental gradients: combined as the "habitat" variables
-createAndSavePlots("box", envDataHabitat, plotClusters$Cluster, "HabitatVariables")
+createAndSavePlots("box", envDataHabitat, plotClusters$Cluster, "HabitatVariables", habitatVarsNames)
 
 # Create one figure for the remaining variables
-createAndSavePlots("box", envDataOtherVars, plotClusters$Cluster, "OtherVariables")
+createAndSavePlots("box", envDataOtherVars, plotClusters$Cluster, "OtherVariables", otherVarsNames)
 
 
 ########################### Analysis
@@ -153,8 +182,8 @@ permnvPostHoc
 # A    A    B    A    AB
 
 
-runAnovaAndPostHoc(TRUE, envDataHabitat, plotClusters$Cluster)
-runAnovaAndPostHoc(FALSE, envDataOtherVars, plotClusters$Cluster)
+runAnovaAndPostHoc(TRUE, envDataHabitatTransf, plotClusters$Cluster)
+runAnovaAndPostHoc(FALSE, envDataOtherVarsTransf, plotClusters$Cluster)
 
 
 
