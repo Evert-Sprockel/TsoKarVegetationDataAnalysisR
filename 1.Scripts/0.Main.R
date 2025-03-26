@@ -62,11 +62,12 @@ source("1.Scripts/3.TransformingEnvData.R")
 source("1.Scripts/4.BasicDescriptiveStatistics.R")
 source("1.Scripts/5.ExploratoryScatterBoxPlots.R")
 source("1.Scripts/6.ClusteringVegData.R")
-source("1.Scripts/7.NMDS.R")
-source("1.Scripts/8.TestingPlotClusters.R")
-source("1.Scripts/9.GLMs.R")
-source("1.Scripts/10.PearsonCorrelationGreenness.R")
-source("1.Scripts/11.RangeFigures.R")
+source("1.scripts/7.SpeciesListPerCluster.R")
+source("1.Scripts/8.NMDS.R")
+source("1.Scripts/9.TestingPlotClusters.R")
+source("1.Scripts/10.GLMs.R")
+source("1.Scripts/11.PearsonCorrelationGreenness.R")
+source("1.Scripts/12.RangeFigures.R")
 
 
 ########################### Cleaning environment once finished
