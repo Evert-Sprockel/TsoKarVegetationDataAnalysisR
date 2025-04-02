@@ -21,6 +21,10 @@ envDataVars <- envData[, c("VerticalWaterDistanceLog",
                        "ECLog",
                        "BulkDensityIncRootsLog")]
 
+communityDataVars <- envData[, c("PlantBiomassLog",
+                                 "ShannonIndex",
+                                 "SpeciesRichness")]
+
 
 ########################### Function for creating plots
 
@@ -73,7 +77,7 @@ rNum <- function(num) {
 }
 
 
-########################### Creating the plots
+########################### Creating the plots for environmental gradients
 
 testResults <- list()
 for (i in colnames(envDataVars)) {
@@ -102,5 +106,33 @@ ggsave("4.Results/PCor.GreennessEnv.png",
        height = 8,
        units = "in")
 
-runPearson(envData$GreennessIndex, envData$Contrast)
+
+########################### Creating the plots for vegetation gradients (bimass, shannon, richness)
+
+testResults <- list()
+for (i in colnames(communityDataVars)) {
+  print(i)
+  result <- runPearson(communityDataVars[[i]], envData$GreennessIndex)
+  # print(result)  # All significant
+  testResults[[i]] <- paste0("p=",
+                             rNum(result$p.value),
+                             ", r^2=",
+                             rNum(result$estimate^2))
+}
+
+plotList <- list()
+for (i in colnames(communityDataVars)) {
+  p <- createSinglePlot("scatter", envData$GreennessIndex, communityDataVars[[i]], i, testResults[[i]])
+  plotList[[i]] <- p
+  print(class(p))
+}
+
+# Arrange the plots in a grid (e.g., 2 rows, 3 columns)
+combined_plot <- do.call(grid.arrange, c(plotList, ncol = 3))
+ggsave("4.Results/PCor.GreennessCom.png", 
+       plot = combined_plot,
+       dpi = 200,
+       width = 12,
+       height = 4,
+       units = "in")
 

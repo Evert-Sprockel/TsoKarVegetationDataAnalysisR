@@ -1,5 +1,5 @@
 ### OUTPUT OF THIS SCRIPT:
-# Images of box plots
+# pdf's of box plots
 # (No data sets)
 
 
@@ -17,43 +17,45 @@ library(pairwiseAdonis)
 # NOTE: SEE WHICH PLOTS ARE REMOVED AND WHY IN THE SCRIPT WHERE THE DATA IS CLEANED
 # Load envData and vegData from CSV files, setting the first column as row names
 envData <- read.csv("3.TemporaryFiles/envDataWithShannonTransformed.csv", row.names = 1)
+# Add site numbers as a column
+envData$Site <- as.factor(sub("s(\\d+).*", "\\1", rownames(envData)))
+# Loading the cluster data from the script "Clustering.R"
+envData$Cluster <- as.factor(read.csv("3.TemporaryFiles/Clusters.Plots.1ward.D.csv")$Cluster)
+# For the plots
 envDataHabitat <- envData[, c("VerticalWaterDistance",
                               "SoilMoistureAvrg",
                               "pH",
                               "SalinityAdjusted",
                               "BulkDensityIncRoots")]
-
+# For testing
 envDataHabitatTransf <- envData[, c("VerticalWaterDistanceLog",
                                     "SoilMoistureAvrg",
                                     "pHLog",
                                     "SalinityAdjustedLog",
                                     "BulkDensityIncRootsLog")]
-
+# For the plot names
 habitatVarsNames <- c("Vertical water distance (cm)",
                       "Soil moisture (%)",
                       "pH",
                       "Salinity (µS/m)",
                       "Bulk density (g/cm3)")
-
-
+# For the plots
 envDataOtherVars <- envData[, c("GreennessIndex",
                                 "PlantBiomass",
                                 "ShannonIndex",
                                 "SpeciesRichness")]
-
+# For testing
 envDataOtherVarsTransf <- envData[, c("GreennessIndex",
                                       "PlantBiomassLog",
                                       "ShannonIndex",
                                       "SpeciesRichness")]
-
+# For the plot names
 otherVarsNames <- c("Greenness index",
                     "Plant biomass (g)",
                     "Shannon diversity index",
                     "Species richness")
 
-# Loading the cluster data from the script "Clustering.R"
-plotClusters <- read.csv("3.TemporaryFiles/Clusters.Plots.1ward.D.csv")
-plotClusters$Cluster <- as.factor(plotClusters$Cluster)
+
 
 
 ########################### Functions
@@ -108,7 +110,7 @@ createAndSavePlots <- function(type, varsY, varX, groupName, namesVector) {
   combined_plot <- do.call(grid.arrange, c(plotList, ncol = ncol(varsY)))
   # Save the combined plot
   ggsave(
-    filename = paste0("4.Results/TestingClusters.", groupName, ".pdf"),
+    filename = paste0("4.Results/Testing", groupName, ".pdf"),
     plot = combined_plot,
     device = cairo_pdf,
     dpi = 300,
@@ -116,6 +118,28 @@ createAndSavePlots <- function(type, varsY, varX, groupName, namesVector) {
     height = 6,
     units = "cm"
   )
+}
+
+
+# Runs a permanova for all vars in a data frame with pairwise comparison
+# Takes a dataframe with independent variables, and a string for group col name, and the full dataframe
+# Returns nothing
+# Prints outputs of the tests
+doPermanova <- function(dataVar, groupName, fullData) {
+  formulaObj <- as.formula(paste("dataVar ~", groupName))
+  
+  permnv <- adonis2(
+    formulaObj,
+    data = fullData,
+    method = "euc"
+  )
+  print(permnv)
+  permnvPostHoc <- pairwise.adonis2(
+    formulaObj,
+    data = fullData,
+    method = "euc"
+  )
+  print(permnvPostHoc)
 }
 
 
@@ -153,37 +177,33 @@ runAnovaAndPostHoc <- function(doBonferoniAdjust, data, groups) {
 }
 
 
+
+
 ########################### Creating figures
 
-# Create one figure for all five environmental gradients: combined as the "habitat" variables
-createAndSavePlots("box", envDataHabitat, plotClusters$Cluster, "HabitatVariables", habitatVarsNames)
-
-# Create one figure for the remaining variables
-createAndSavePlots("box", envDataOtherVars, plotClusters$Cluster, "OtherVariables", otherVarsNames)
+createAndSavePlots("box", envDataHabitat, envData$Cluster, "Clusters.HabitatVariables", habitatVarsNames)
+createAndSavePlots("box", envDataOtherVars, envData$Cluster, "Clusters.OtherVariables", otherVarsNames)
+createAndSavePlots("box", envDataHabitat, envData$Site, "Sites.HabitatVariables", habitatVarsNames)
+createAndSavePlots("box", envDataOtherVars, envData$Site, "Sites.OtherVariables", otherVarsNames)
 
 
 ########################### Analysis
 
-# only for five habitat variables
-permnv <- adonis2(
-  envDataHabitat ~ Cluster,
-  data = plotClusters,
-  method = "euc"
-)
-permnv
-permnvPostHoc <- pairwise.adonis2(
-  envDataHabitat ~ Cluster,
-  data = plotClusters,
-  method = "euc"
-)
-permnvPostHoc
+doPermanova(envDataHabitatTransf, "Cluster", envData)
 # Cluster significance:
 # 1,   2,   3,   4,   5
 # A    A    B    A    AB
+runAnovaAndPostHoc(TRUE, envDataHabitatTransf, envData$Cluster)
+runAnovaAndPostHoc(FALSE, envDataOtherVarsTransf, envData$Cluster)
+
+doPermanova(envDataHabitatTransf, "Site", envData)
+# Site significance:
+# 1,   2,   3
+# A    A    B
+runAnovaAndPostHoc(TRUE, envDataHabitatTransf, envData$Site)
+runAnovaAndPostHoc(FALSE, envDataOtherVarsTransf, envData$Site)
 
 
-runAnovaAndPostHoc(TRUE, envDataHabitatTransf, plotClusters$Cluster)
-runAnovaAndPostHoc(FALSE, envDataOtherVarsTransf, plotClusters$Cluster)
 
 
 

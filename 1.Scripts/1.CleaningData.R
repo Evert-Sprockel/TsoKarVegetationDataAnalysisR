@@ -8,6 +8,7 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 
 library(readxl)
 
+
 ########################### Importing data
 
 vData <- as.data.frame(read_excel("2.Data/VegetationData.xlsx"))

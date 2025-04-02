@@ -7,8 +7,9 @@ rm(list = ls()) # Cleaning the environment
 # ctrl + L in console will clear everything
 try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or click broom)
 
-library(ggplot2)  # includes ggplot
+library(ggplot2)
 library(gridExtra)
+library(GGally)
 
 
 ########################### Importing data
@@ -124,6 +125,7 @@ createSinglePlot("scatter", envData$VerticalWaterDistanceLog, envData$SoilMoistu
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$ECLog)
 createSinglePlot("scatter", envData$SalinityAdjustedLog, envData$pHLog)
 createSinglePlot("scatter", envData$SoilMoistureAvrg, envData$VerticalWaterDistanceLog)
+createSinglePlot("scatter", envData$SoilMoistureAvrg, envData$pHLog)
 
 createSinglePlot("scatter", envData$GreennessIndex, envData$Contrast)
 
@@ -134,3 +136,10 @@ plotcolor <- ggplot(data = envData, mapping = aes(y = GreennessIndex, x = SoilMo
   scale_color_gradientn(colors = rainbow(10)) 
 ggsave(filename = paste0("4.Results/Expl.Sctr.GreennessSoilMoistureCOLORED.png"),
        plot = plotcolor, width=8, height=6, dpi=300)
+
+
+# Create pairplot
+p <- ggpairs(envData, columns = c(1, 2, 5, 12, 13, 14, 15, 16, 17, 18, 19),
+             lower = list(continuous = wrap("smooth", method = "lm", se = TRUE, color = "#5776c2"))) 
+ggsave(filename = "4.Results/Expl.Sctr.=PAIRPLOT.png",
+       plot = p, width = 24, height = 16, dpi = 300)
