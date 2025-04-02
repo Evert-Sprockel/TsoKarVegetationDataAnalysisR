@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Importing raw Excel data, cleaning, output as usable csv
+
 ### OUTPUT OF THIS SCRIPT:
 # Two cleaned data sets (.csv): envData and vegData
 

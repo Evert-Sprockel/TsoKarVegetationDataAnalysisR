@@ -1,5 +1,8 @@
+### PURPOSE OF THIS SCRIPT:
+# Creating a list of plant species with true or false for presence per cluster
+
 ### OUTPUT OF THIS SCRIPT:
-# One data set (.csv): the list of plant species with true or false for presence per cluster
+# One data set (.csv)
 
 
 rm(list = ls()) # Cleaning the environment
@@ -9,6 +12,7 @@ try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # Cleaning plot window (or 
 library(dplyr)
 library(tidyr)
 library(tibble)
+
 
 ########################### Importing data
 

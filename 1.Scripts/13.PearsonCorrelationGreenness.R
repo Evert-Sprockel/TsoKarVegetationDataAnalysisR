@@ -1,6 +1,9 @@
+### PURPOSE OF THIS SCRIPT:
+# Testing the correlation of greenness to environmental gradients
+
 ### OUTPUT OF THIS SCRIPT:
 # Scatter plots
-# (No data set)
+# (Test results printed to terminal)
 
 
 rm(list = ls()) # Cleaning the environment

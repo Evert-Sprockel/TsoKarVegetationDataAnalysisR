@@ -75,6 +75,7 @@ source("1.Scripts/11.ThufurTest.R")
 source("1.Scripts/12.GLMs.R")
 source("1.Scripts/13.PearsonCorrelationGreenness.R")
 source("1.Scripts/14.RangeFigures.R")
+source("1.Scripts/15.RangeFigures-ColorCoded.R")
 
 
 ########################### Cleaning environment once finished

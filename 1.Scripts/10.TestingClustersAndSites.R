@@ -1,6 +1,8 @@
+### PURPOSE OF THIS SCRIPT:
+# Testing differences for the environmental/vegetation gradients per cluster and site
+
 ### OUTPUT OF THIS SCRIPT:
 # pdf's of box plots
-# (No data sets)
 
 
 rm(list = ls()) # Cleaning the environment
@@ -11,6 +13,7 @@ library(vegan)
 library(ggplot2)
 library(gridExtra)
 library(pairwiseAdonis)
+
 
 ########################### Importing data
 

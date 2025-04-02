@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Creating clusters of the plots and species based on the vegetation data
+
 ### OUTPUT OF THIS SCRIPT:
 # cluster dendograms images
 # Two data sets: plots with cluster numbers, and species with cluster numbers

@@ -1,6 +1,9 @@
+### PURPOSE OF THIS SCRIPT:
+# Testing the proportion of thufur/hollow per site and cluster
+
 ### OUTPUT OF THIS SCRIPT:
-# Test results of Fischer's test
-# (No data set)
+# Nothing
+# (Test results printed to terminal)
 
 
 rm(list = ls()) # Cleaning the environment

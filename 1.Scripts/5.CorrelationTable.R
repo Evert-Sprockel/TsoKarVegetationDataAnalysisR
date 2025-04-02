@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Creating a correlation matrix
+
 ### OUTPUT OF THIS SCRIPT:
 # One pdf image with a correlation matrix
 

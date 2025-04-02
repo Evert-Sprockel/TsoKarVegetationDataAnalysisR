@@ -1,6 +1,9 @@
+### PURPOSE OF THIS SCRIPT:
+# Running GLMs for biomass, shannon index and species richness
+
 ### OUTPUT OF THIS SCRIPT:
-# Test results from generalized linear model printed to the terminal, scatter plots
-# (No data sets)
+# Scatter plots
+# (Test results from generalized linear model printed to the terminal)
 
 
 rm(list = ls()) # Cleaning the environment

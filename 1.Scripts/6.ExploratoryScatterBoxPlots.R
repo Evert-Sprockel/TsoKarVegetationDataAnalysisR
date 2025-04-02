@@ -1,6 +1,8 @@
+### PURPOSE OF THIS SCRIPT:
+# Creating graphs to get an idea of the relationships between variables
+
 ### OUTPUT OF THIS SCRIPT:
-# A .txt file with basic descriptive statistics
-# A lot of graphs
+# A lot of graphs. One big pairplot that summarizes everything
 
 
 rm(list = ls()) # Cleaning the environment

@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Adding two columns to the data: species richness and shannon diversity index
+
 ### OUTPUT OF THIS SCRIPT:
 # One data set (.csv): envData with the new columns Shannon index and species richness
 

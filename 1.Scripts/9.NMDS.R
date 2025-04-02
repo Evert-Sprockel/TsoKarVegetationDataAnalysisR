@@ -1,6 +1,8 @@
+### PURPOSE OF THIS SCRIPT:
+# Visualize the vegetation data using an ordination (NMDS)
+
 ### OUTPUT OF THIS SCRIPT:
 # Ordination plot images
-# (No data sets)
 
 
 rm(list = ls()) # Cleaning the environment
@@ -11,6 +13,7 @@ library(ggplot2)
 library(vegan)
 library(dplyr)
 library(stringr)
+
 
 ########################### Importing data
 

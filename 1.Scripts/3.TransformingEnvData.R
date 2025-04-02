@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Testing normality for the environmental data, and deciding if and which transformation is needed
+
 ### OUTPUT OF THIS SCRIPT:
 # One data set (.csv): envData with extra columns for transformed variables
 

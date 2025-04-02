@@ -1,3 +1,6 @@
+### PURPOSE OF THIS SCRIPT:
+# Obtaining basic descriptive information for the data sets
+
 ### OUTPUT OF THIS SCRIPT:
 # A .txt file with basic descriptive statistics for both data sets
 
