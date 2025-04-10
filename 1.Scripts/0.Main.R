@@ -65,11 +65,12 @@ source("1.Scripts/7.ClusteringVegData.R")
 source("1.scripts/8.SpeciesListPerCluster.R")
 source("1.Scripts/9.NMDS.R")
 source("1.Scripts/10.TestingClustersAndSites.R")
-source("1.Scripts/11.ThufurTest.R")
-source("1.Scripts/12.GLMs.R")
-source("1.Scripts/13.PearsonCorrelationGreenness.R")
-source("1.Scripts/14.RangeFigures.R")
-source("1.Scripts/15.RangeFigures-ColorCoded.R")
+source("1.Scripts/11.ThufurTestFischer.R")
+source("1.Scripts/12.ThufurTestMannWhitneyU.R")
+source("1.Scripts/13.GLMs.R")
+source("1.Scripts/14.PearsonCorrelationGreenness.R")
+source("1.Scripts/15.RangeFigures.R")
+source("1.Scripts/16.RangeFigures-ColorCoded.R")
 
 
 ########################### Cleaning environment once finished
