@@ -32,7 +32,7 @@ vegData <- vegData %>%
 
 ########################### Function for creating the plots
 
-createPlot <- function(vegetData, environData, envVar, meanEnvValuesColor, short = FALSE, fontSize = 6) {
+createPlot <- function(vegetData, environData, envVar, envVarName, meanEnvValuesColor, short = FALSE, fontSize = 6) {
   # Reshape species data
   speciesLong <- vegetData %>%
     pivot_longer(cols = -Plot, names_to = "Species", values_to = "Abundance") %>%
@@ -83,7 +83,7 @@ createPlot <- function(vegetData, environData, envVar, meanEnvValuesColor, short
     # Add mean environmental variable as a point for each species
     geom_point(data = meanValuePerSpecies, aes(x = SpeciesMod, y = mean_envVar), color = "#F8766D", size = fontSize * 0.2) +
     # Add labels
-    labs(y = envVar, x = NULL) + 
+    labs(y = envVarName, x = NULL) + 
     # Use a nice color gradient
     scale_color_gradientn(
       colors = c("#cfadfd", "#b1ceed", "#b6f5bb", "#eaf4a1", "#fbd9a9", "#fcb9da")
@@ -123,17 +123,17 @@ meanMoistValuesForColor <- mergedData %>%
 
 ########################### Using the function to create several plots
 
-plot1 <- createPlot(vegData, envData, "SoilMoistureAvrg", meanMoistValuesForColor)
-plot2 <- createPlot(vegData, envData, "VerticalWaterDistance", meanMoistValuesForColor)
-plot3 <- createPlot(vegData, envData, "pH", meanMoistValuesForColor, TRUE)
-plot4 <- createPlot(vegData, envData, "SalinityAdjusted", meanMoistValuesForColor, TRUE)
-plot5 <- createPlot(vegData, envData, "EC", meanMoistValuesForColor, TRUE)
-plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots", meanMoistValuesForColor, TRUE)
+plot1 <- createPlot(vegData, envData, "SoilMoistureAvrg",      "Soil moisture (%)", meanMoistValuesForColor)
+plot2 <- createPlot(vegData, envData, "VerticalWaterDistance", "Vertical water distance (cm)", meanMoistValuesForColor)
+plot3 <- createPlot(vegData, envData, "pH",                    "pH", meanMoistValuesForColor, TRUE)
+plot4 <- createPlot(vegData, envData, "SalinityAdjusted",      "Salinity (µS/m)", meanMoistValuesForColor, TRUE)
+plot5 <- createPlot(vegData, envData, "EC",                    "Electrical conductivity (µS/m)", meanMoistValuesForColor, TRUE)
+plot6 <- createPlot(vegData, envData, "BulkDensityIncRoots",   "Bulk density (g/cm3)", meanMoistValuesForColor, TRUE)
 
-p1 <- createPlot(vegData, envData, "GreennessIndex", meanMoistValuesForColor)
-p2 <- createPlot(vegData, envData, "Contrast", meanMoistValuesForColor)
-p3 <- createPlot(vegData, envData, "PlantBiomass", meanMoistValuesForColor, TRUE)
-p4 <- createPlot(vegData, envData, "ShannonIndex", meanMoistValuesForColor, TRUE)
+p1 <- createPlot(vegData, envData, "GreennessIndex",           "Greenness index", meanMoistValuesForColor)
+p2 <- createPlot(vegData, envData, "Contrast",                 "Contrast", meanMoistValuesForColor)
+p3 <- createPlot(vegData, envData, "PlantBiomass",             "Plant biomass (g)", meanMoistValuesForColor, TRUE)
+p4 <- createPlot(vegData, envData, "ShannonIndex",             "Shannon index", meanMoistValuesForColor, TRUE)
 
 
 ########################### Saving image

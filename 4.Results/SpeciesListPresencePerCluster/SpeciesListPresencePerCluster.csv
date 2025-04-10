@@ -1,8 +1,8 @@
 "","Species","1","2","3","4","5"
 "1","Argentina.anserina",TRUE,FALSE,FALSE,TRUE,FALSE
 "2","Astragalus.tribulifolius",FALSE,FALSE,TRUE,FALSE,FALSE
-"3","Blysmus.kompressus",TRUE,TRUE,TRUE,TRUE,TRUE
-"4","Calamogrostis.holciformis",TRUE,TRUE,TRUE,TRUE,FALSE
+"3","Blysmus.compressus",TRUE,TRUE,TRUE,TRUE,TRUE
+"4","Calamagrostis.holciformis",TRUE,TRUE,TRUE,TRUE,FALSE
 "5","Carex.microglochin",FALSE,TRUE,TRUE,TRUE,TRUE
 "6","Carex.moorcroftii",FALSE,FALSE,TRUE,TRUE,TRUE
 "7","Carex.orbicularis",TRUE,TRUE,TRUE,TRUE,FALSE
@@ -14,7 +14,7 @@
 "13","Halerpestes.sarmentosa",TRUE,FALSE,TRUE,TRUE,TRUE
 "14","Hordeum.brevisubulatum.subsp..turkes.",FALSE,FALSE,TRUE,TRUE,FALSE
 "15","Knorringia.pamirica",FALSE,FALSE,TRUE,FALSE,TRUE
-"16","Lomatogonium.branchyantherum",FALSE,TRUE,TRUE,FALSE,FALSE
+"16","Lomatogonium.brachyantherum",FALSE,TRUE,TRUE,FALSE,FALSE
 "17","Pedicularis.longiflora.var..tubiformis",TRUE,FALSE,TRUE,TRUE,FALSE
 "18","Pedicularis.rhinanthoides",FALSE,FALSE,TRUE,FALSE,FALSE
 "19","Poa.tibetica",TRUE,FALSE,TRUE,FALSE,FALSE
